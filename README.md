@@ -1,2 +1,0 @@
-# aymi-io
-Project AYMI
