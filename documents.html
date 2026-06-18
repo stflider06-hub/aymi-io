@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AYMI — Документы</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#f7f7f7;
+      color:#1f2937;
+    }
+
+    .docs-page{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top left, rgba(88,166,255,.18), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(95,199,161,.22), transparent 35%),
+        linear-gradient(180deg,#ffffff 0%,#eef8f6 100%);
+    }
+
+    .docs-header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:linear-gradient(90deg,#58a6ff,#5fc7a1);
+      box-shadow:0 8px 25px rgba(0,0,0,.15);
+    }
+
+    .docs-nav{
+      max-width:1150px;
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .docs-logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      color:#fff;
+      font-size:24px;
+      font-weight:900;
+      text-decoration:none;
+    }
+
+    .docs-logo img{
+      width:48px;
+      height:48px;
+      border-radius:14px;
+      background:#fff;
+      padding:4px;
+      object-fit:cover;
+    }
+
+    .docs-menu{
+      display:flex;
+      gap:28px;
+    }
+
+    .docs-menu a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+      transition:.3s;
+    }
+
+    .docs-menu a:hover{
+      transform:translateY(-2px);
+      opacity:.85;
+    }
+
+    .docs-order{
+      background:#fff;
+      color:#1f2937;
+      padding:14px 24px;
+      border-radius:16px;
+      font-weight:900;
+      text-decoration:none;
+      transition:.3s;
+    }
+
+    .docs-order:hover{
+      transform:translateY(-3px);
+    }
+
+    .docs-hero{
+      text-align:center;
+      padding:60px 18px 35px;
+    }
+
+    .docs-badge{
+      display:inline-block;
+      padding:10px 18px;
+      border-radius:999px;
+      background:rgba(88,166,255,.14);
+      color:#2563eb;
+      font-size:14px;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .docs-hero h1{
+      font-size:42px;
+      line-height:1.1;
+      margin:18px 0 12px;
+      font-weight:900;
+      color:#1f2937;
+    }
+
+    .docs-hero p{
+      max-width:720px;
+      margin:0 auto;
+      font-size:16px;
+      line-height:1.7;
+      color:#6b7280;
+    }
+
+    .docs-grid{
+    max-width:900px;
+    margin:30px auto 70px;
+    padding:0 18px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+}
+
+    .doc-card{
+      background:#fff;
+      border-radius:28px;
+      padding:30px;
+      box-shadow:0 12px 35px rgba(0,0,0,.09);
+      transition:.35s;
+      position:relative;
+      overflow:hidden;
+      min-height:300px;
+    }
+
+    .doc-card::before{
+      content:"";
+      position:absolute;
+      right:-70px;
+      top:-70px;
+      width:160px;
+      height:160px;
+      border-radius:50%;
+      background:rgba(95,199,161,.16);
+    }
+
+    .doc-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 18px 45px rgba(0,0,0,.14);
+    }
+
+    .doc-icon{
+      width:72px;
+      height:72px;
+      border-radius:22px;
+      background:linear-gradient(135deg,#58a6ff,#5fc7a1);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:22px;
+      color:#fff;
+      position:relative;
+      z-index:2;
+    }
+
+    .doc-icon svg{
+      width:34px;
+      height:34px;
+      fill:none;
+      stroke:white;
+      stroke-width:2.2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .doc-card h3{
+      font-size:24px;
+      margin:0 0 12px;
+      font-weight:900;
+      color:#1f2937;
+      position:relative;
+      z-index:2;
+    }
+
+    .doc-card p{
+      color:#6b7280;
+      line-height:1.7;
+      font-size:15px;
+      margin-bottom:24px;
+      position:relative;
+      z-index:2;
+    }
+
+    .doc-btn{
+      display:inline-block;
+      padding:13px 20px;
+      border-radius:14px;
+      background:linear-gradient(90deg,#58a6ff,#5fc7a1);
+      color:#fff;
+      text-decoration:none;
+      font-weight:900;
+      box-shadow:0 10px 25px rgba(88,166,255,.25);
+      transition:.3s;
+      position:relative;
+      z-index:2;
+    }
+
+    .doc-btn:hover{
+      transform:translateY(-3px);
+    }
+    .doc-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:2;
+}
+
+.doc-buttons .doc-btn{
+  font-size:14px;
+  padding:11px 16px;
+}
+
+    .docs-note{
+      max-width:900px;
+      margin:-35px auto 60px;
+      padding:22px;
+      border-radius:22px;
+      background:#fff;
+      color:#6b7280;
+      text-align:center;
+      box-shadow:0 10px 28px rgba(0,0,0,.07);
+      font-size:15px;
+      line-height:1.7;
+    }
+
+    .docs-footer{
+      background:#111827;
+      color:#fff;
+      text-align:center;
+      padding:28px 10px;
+    }
+
+    .docs-footer strong{
+      display:block;
+      font-size:22px;
+      margin-bottom:8px;
+    }
+
+    .docs-footer p{
+      margin:0;
+      color:#d1d5db;
+    }
+
+    @media(max-width:900px){
+      .docs-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .docs-menu{
+        display:none;
+      }
+
+      .docs-hero h1{
+        font-size:34px;
+      }
+    }
+
+    @media(max-width:600px){
+      .docs-grid{
+        grid-template-columns:1fr;
+      }
+
+      .docs-logo{
+        font-size:20px;
+      }
+
+      .docs-order{
+        padding:12px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body class="docs-page">
+
+<header class="docs-header">
+  <div class="docs-nav">
+    <a href="index.html" class="docs-logo">
+      <img src="aymi-logo.jpg" alt="AYMI">
+      <span>AYMI</span>
+    </a>
+
+    <nav class="docs-menu">
+      <a href="index.html">Главная</a>
+      <a href="index.html#catalog">Каталог</a>
+      <a href="index.html#contact">Контакты</a>
+    </nav>
+
+    <a href="index.html#contact" class="docs-order">Заказать</a>
+  </div>
+</header>
+
+<main>
+  <section class="docs-hero">
+  <div class="docs-badge">Документы AYMI</div>
+
+  <h1>Документы и подтверждение качества</h1>
+
+  <p>
+    AYMI уделяет особое внимание качеству продукции.
+    Здесь размещаются официальные сертификаты и результаты лабораторных исследований.
+  </p>
+</section>
+ 
+<section class="docs-grid">
+
+  <div class="doc-card">
+    <div class="doc-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M4 18h16"></path>
+        <path d="M7 14l3-3 2 2 5-5"></path>
+        <path d="M20 8v5h-5"></path>
+      </svg>
+    </div>
+
+    <h3>Лабораторные исследования</h3>
+
+    <p>
+      Протоколы лабораторных испытаний продукции AYMI:
+      дневные прокладки DAY 245 мм и ночные прокладки NIGHT 290 мм.
+    </p>
+
+    <div class="doc-buttons">
+  <a href="docs/day-test.pdf" target="_blank" class="doc-btn">DAY 245 мм</a>
+  <a href="docs/night-test.pdf" target="_blank" class="doc-btn">NIGHT 290 мм</a>
+  <a href="docs/micro-day.pdf" target="_blank" class="doc-btn">Микробиология DAY</a>
+  <a href="docs/micro-night.pdf" target="_blank" class="doc-btn">Микробиология NIGHT</a>
+<a href="docs/extra-test.pdf" target="_blank" class="doc-btn">
+Дополнительные испытания
+</a>
+</a>
+</div>
+  </div>
+
+  <div class="doc-card">
+    <div class="doc-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M7 3h7l5 5v13H7z"></path>
+        <path d="M14 3v5h5"></path>
+        <path d="M9 13h6"></path>
+        <path d="M9 17h4"></path>
+      </svg>
+    </div>
+
+    <h3>Сертификаты</h3>
+
+    <p>
+      Сертификаты соответствия и дополнительные документы AYMI будут
+      добавлены после получения официальных материалов.
+    </p>
+
+<span class="doc-btn" style="opacity:.75;cursor:not-allowed;">
+  Скоро будет добавлено
+</span>
+  </div>
+
+</section>
+
+  <div class="docs-note">
+
+  </div>
+</main>
+
+<footer class="docs-footer">
+  <strong>AYMI</strong>
+  <p>© 2026. Натуральный комфорт каждый день.</p>
+</footer>
+
+</body>
+</html>
