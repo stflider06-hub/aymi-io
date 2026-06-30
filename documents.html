@@ -313,9 +313,11 @@
   <section class="docs-hero">
   <div class="docs-badge">Документы AYMI</div>
 
-  <h1>Документы и подтверждение качества</h1>
+<h1 data-key="title">
+Документы и подтверждение качества
+</h1>
 
-  <p>
+  <p data-key="subtitle">
     AYMI уделяет особое внимание качеству продукции.
     Здесь размещаются официальные сертификаты и результаты лабораторных исследований.
   </p>
@@ -332,7 +334,9 @@
       </svg>
     </div>
 
-    <h3>Лабораторные исследования</h3>
+    <h3 data-key="lab_title">
+Лабораторные исследования
+</h3>
 
     <p>
       Протоколы лабораторных испытаний продукции AYMI:
@@ -347,7 +351,6 @@
 <a href="docs/extra-test.pdf" target="_blank" class="doc-btn">
 Дополнительные испытания
 </a>
-</a>
 </div>
   </div>
 
@@ -361,16 +364,24 @@
       </svg>
     </div>
 
-    <h3>Сертификаты</h3>
+   <h3 data-key="cert_title">
+Сертификаты
+</h3>
 
-    <p>
-      Сертификаты соответствия и дополнительные документы AYMI будут
-      добавлены после получения официальных материалов.
-    </p>
+<p>
+Официальные документы, подтверждающие соответствие и государственную
+регистрацию продукции AYMI.
+</p>
 
-<span class="doc-btn" style="opacity:.75;cursor:not-allowed;">
-  Скоро будет добавлено
-</span>
+<div class="doc-buttons">
+  <a href="docs/kg-certificate.pdf" target="_blank" class="doc-btn">
+    Сертификат соответствия КР
+  </a>
+
+  <a href="docs/eaeu-registration.pdf" target="_blank" class="doc-btn">
+    Регистрация ЕАЭС
+  </a>
+
   </div>
 
 </section>
@@ -384,6 +395,213 @@
   <strong>AYMI</strong>
   <p>© 2026. Натуральный комфорт каждый день.</p>
 </footer>
+<script>
 
+const translations = {
+
+ru:{
+menu_home:"Главная",
+menu_catalog:"Каталог",
+menu_contact:"Контакты",
+order:"Заказать",
+
+badge:"Документы AYMI",
+title:"Документы и подтверждение качества",
+
+subtitle:"AYMI уделяет особое внимание качеству продукции. Здесь размещаются официальные сертификаты и результаты лабораторных исследований.",
+
+lab_title:"Лабораторные исследования",
+
+lab_text:"Протоколы лабораторных испытаний продукции AYMI: дневные прокладки DAY 245 мм и ночные прокладки NIGHT 290 мм.",
+
+cert_title:"Сертификаты",
+
+cert_text:"Официальные документы, подтверждающие соответствие и государственную регистрацию продукции AYMI.",
+
+extra:"Дополнительные испытания",
+
+footer:"© 2026. Натуральный комфорт каждый день."
+
+},
+
+en:{
+menu_home:"Home",
+menu_catalog:"Catalog",
+menu_contact:"Contacts",
+order:"Order",
+
+badge:"AYMI Documents",
+
+title:"Documents & Quality",
+
+subtitle:"Official certificates and laboratory reports of AYMI products.",
+
+lab_title:"Laboratory Tests",
+
+lab_text:"Laboratory reports for DAY 245 mm and NIGHT 290 mm sanitary pads.",
+
+cert_title:"Certificates",
+
+cert_text:"Official certificates confirming product quality and registration.",
+
+extra:"Additional Tests",
+
+footer:"© 2026. Natural comfort every day."
+},
+
+kg:{
+menu_home:"Башкы бет",
+menu_catalog:"Каталог",
+menu_contact:"Байланыш",
+order:"Буйрутма",
+
+badge:"AYMI Документтери",
+
+title:"Документтер жана сапат",
+
+subtitle:"Бул жерде AYMI продукциясынын лабораториялык изилдөөлөрү жана сертификаттары жайгашкан.",
+
+lab_title:"Лабораториялык изилдөөлөр",
+
+lab_text:"DAY 245 мм жана NIGHT 290 мм боюнча лабораториялык протоколдор.",
+
+cert_title:"Сертификаттар",
+
+cert_text:"AYMI продукциясынын расмий сертификаттары.",
+
+extra:"Кошумча сыноолор",
+
+footer:"© 2026. Табигый ыңгайлуулук күн сайын."
+},
+
+kz:{
+menu_home:"Басты бет",
+menu_catalog:"Каталог",
+menu_contact:"Байланыс",
+order:"Тапсырыс",
+
+badge:"AYMI Құжаттары",
+
+title:"Құжаттар және сапа",
+
+subtitle:"AYMI өнімдерінің зертханалық хаттамалары мен сертификаттары.",
+
+lab_title:"Зертханалық зерттеулер",
+
+lab_text:"DAY 245 мм және NIGHT 290 мм зертханалық хаттамалары.",
+
+cert_title:"Сертификаттар",
+
+cert_text:"Өнімнің сәйкестігін растайтын ресми құжаттар.",
+
+extra:"Қосымша сынақтар",
+
+footer:"© 2026. Күн сайынғы табиғи жайлылық."
+},
+
+uz:{
+menu_home:"Bosh sahifa",
+menu_catalog:"Katalog",
+menu_contact:"Aloqa",
+order:"Buyurtma",
+
+badge:"AYMI Hujjatlari",
+
+title:"Hujjatlar va sifat",
+
+subtitle:"AYMI mahsulotlarining sertifikatlari va laboratoriya sinovlari.",
+
+lab_title:"Laboratoriya sinovlari",
+
+lab_text:"DAY 245 mm va NIGHT 290 mm laboratoriya protokollari.",
+
+cert_title:"Sertifikatlar",
+
+cert_text:"Mahsulot sifatini tasdiqlovchi rasmiy hujjatlar.",
+
+extra:"Qo'shimcha sinovlar",
+
+footer:"© 2026. Har kuni tabiiy qulaylik."
+},
+
+tr:{
+menu_home:"Ana Sayfa",
+menu_catalog:"Katalog",
+menu_contact:"İletişim",
+order:"Sipariş",
+
+badge:"AYMI Belgeleri",
+
+title:"Belgeler ve Kalite",
+
+subtitle:"AYMI ürünlerinin resmi belgeleri ve laboratuvar raporları.",
+
+lab_title:"Laboratuvar Testleri",
+
+lab_text:"DAY 245 mm ve NIGHT 290 mm test raporları.",
+
+cert_title:"Sertifikalar",
+
+cert_text:"Ürün uygunluğunu doğrulayan resmi belgeler.",
+
+extra:"Ek Testler",
+
+footer:"© 2026. Her gün doğal konfor."
+},
+
+ar:{
+menu_home:"الرئيسية",
+menu_catalog:"المنتجات",
+menu_contact:"التواصل",
+order:"اطلب",
+
+badge:"مستندات AYMI",
+
+title:"المستندات والجودة",
+
+subtitle:"الشهادات الرسمية وتقارير المختبر الخاصة بمنتجات AYMI.",
+
+lab_title:"الفحوصات المخبرية",
+
+lab_text:"تقارير DAY 245 مم و NIGHT 290 مم.",
+
+cert_title:"الشهادات",
+
+cert_text:"وثائق رسمية تؤكد جودة المنتج.",
+
+extra:"اختبارات إضافية",
+
+footer:"© 2026. راحة طبيعية كل يوم."
+}
+
+};
+
+function applyLanguage(lang){
+
+document.querySelectorAll("[data-key]").forEach(el=>{
+
+const key=el.dataset.key;
+
+if(translations[lang] && translations[lang][key]){
+
+el.textContent=translations[lang][key];
+
+}
+
+});
+
+localStorage.setItem("aymiLang",lang);
+
+document.body.dir=(lang==="ar")?"rtl":"ltr";
+
+}
+
+window.onload=()=>{
+
+applyLanguage(localStorage.getItem("aymiLang")||"ru");
+
+}
+
+</script>
 </body>
 </html>

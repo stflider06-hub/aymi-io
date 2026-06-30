@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AYMI — комфорт и надёжная защита каждый день</title>
+
+  <style>
+    :root {
+      --blue: #58a6ff;
+      --green: #5fc7a1;
+      --dark: #1f2937;
+      --muted: #6b7280;
+      --bg: #f7f7f7;
+      --white: #ffffff;
+      --shadow: 0 15px 40px rgba(0,0,0,.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 0 18px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      box-shadow: 0 8px 25px rgba(0,0,0,.15);
+    }
+
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: white;
+      padding: 4px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .menu a {
+      color: white;
+      font-weight: 600;
+      opacity: .95;
+      transition: .3s;
+    }
+
+    .menu a:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 800;
+      transition: .3s;
+      font-size: 15px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      color: white;
+      box-shadow: 0 10px 25px rgba(88,166,255,.35);
+    }
+
+    .btn-light {
+      background: white;
+      color: var(--dark);
+    }
+
+    .btn-outline {
+      background: white;
+      color: var(--dark);
+      border: 1px solid rgba(31,41,55,.18);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 30px rgba(0,0,0,.18);
+    }
+
+    .btn:active {
+      transform: scale(.96);
+    }
+
+    .hero {
+      min-height: 88vh;
+      background:
+        radial-gradient(circle at top left, rgba(88,166,255,.28), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(95,199,161,.30), transparent 35%),
+        linear-gradient(180deg, #ffffff 0%, #eef8f6 100%);
+      display: flex;
+      align-items: center;
+      padding: 70px 0;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: rgba(88,166,255,.14);
+      color: #2563eb;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 52px;
+      line-height: 1.1;
+      margin: 0 0 20px;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 19px;
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-logo {
+  background: white;
+  border-radius: 34px;
+  padding: 25px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  position: relative;
+  animation: float 4s ease-in-out infinite;
+}
+
+    .hero-logo img {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 28px;
+}
+
+    .float-card {
+      position: absolute;
+      background: white;
+      padding: 13px 18px;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.12);
+      font-weight: 800;
+      animation: floatSmall 3s ease-in-out infinite;
+    }
+    .float-card{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.float-card svg{
+  width:20px;
+  height:20px;
+  stroke:#5fc7a1;
+  stroke-width:2;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+    .float-1 {
+      top: 35px;
+      left: -35px;
+    }
+
+    .float-2 {
+      right: -35px;
+      bottom: 45px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 42px;
+    }
+
+    .section-title span {
+      color: #2563eb;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .section-title h2 {
+      font-size: 36px;
+      margin: 10px 0;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      transition: .3s;
+      border: 1px solid rgba(88,166,255,.12);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+
+    .icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg,#58a6ff,#5fc7a1);
+  margin-bottom: 16px;
+}
+
+.icon svg{
+  width:28px;
+  height:28px;
+  stroke:#ffffff;
+  stroke-width:2;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 21px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .about {
+      background: white;
+    }
+
+    .about-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .about-text {
+      background: #f0f9f8;
+      border-radius: 28px;
+      padding: 34px;
+      border: 1px solid #dff3ee;
+    }
+
+    .about-text h2 {
+      font-size: 36px;
+      margin-top: 0;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .stat {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 34px;
+    }
+
+    .catalog {
+      background: linear-gradient(180deg, #eef8f6, #ffffff);
+    }
+
+    .product-card {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 170px;
+      height: 170px;
+      background: rgba(95,199,161,.18);
+      border-radius: 50%;
+    }
+
+    .price {
+      margin: 16px 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: #2563eb;
+    }
+
+    .wholesale-box {
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      color: white;
+      border-radius: 34px;
+      padding: 45px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 30px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .wholesale-box h2 {
+      font-size: 38px;
+      margin-top: 0;
+    }
+
+    .partners {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .partners span {
+      background: rgba(255,255,255,.18);
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .contact-info {
+      background: #f0f9f8;
+      border-radius: 28px;
+      padding: 30px;
+    }
+
+    .contact-form {
+      background: white;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 16px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(88,166,255,.15);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: var(--shadow);
+      z-index: 999;
+      animation: pulse 2s infinite;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: .8s;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    @keyframes floatSmall {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(88,166,255,.45); }
+      70% { box-shadow: 0 0 0 18px rgba(88,166,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(88,166,255,0); }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-box,
+      .wholesale-box,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .menu {
+        display: none;
+      }
+
+      .float-card {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav {
+        height: auto;
+        padding: 14px 0;
+      }
+
+      .brand {
+        font-size: 19px;
+      }
+
+      .brand img {
+        width: 42px;
+        height: 42px;
+      }
+
+      .hero {
+        padding: 45px 0;
+        min-height: auto;
+      }
+
+      h1 {
+        font-size: 31px;
+        .hero-logo img {
+  max-width: 220px;
+}
+
+.hero-logo {
+  padding: 18px;
+}
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .cards,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title h2,
+      .about-text h2,
+      .wholesale-box h2 {
+        font-size: 28px;
+      }
+
+     section {
+  padding: 55px 0;
+}
+
+}
+
+.faq-box {
+  max-width: 850px;
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+}
+
+.faq-item {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  background: #fff;
+  border: none;
+  padding: 22px 24px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1f2937;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.faq-question span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 24px;
+  color: #6b7280;
+  font-size: 16px;
+  transition: .35s ease;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 160px;
+  padding: 0 24px 22px;
+}
+
+.faq-item.active .faq-question span {
+  transform: rotate(45deg);
+}
+.language{
+  position:relative;
+}
+
+.language-btn{
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(10px);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+
+.language-menu{
+  display:none;
+  position:absolute;
+  top:46px;
+  right:0;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(14px);
+  border-radius:20px;
+  padding:10px;
+  box-shadow:0 18px 45px rgba(0,0,0,.16);
+  min-width:140px;
+  z-index:9999;
+}
+
+.language-menu.show{
+  display:grid;
+  gap:3px;
+}
+
+.language-menu button{
+  border:none;
+  background:transparent;
+  padding:9px 12px;
+  border-radius:12px;
+  text-align:left;
+  font-weight:800;
+  cursor:pointer;
+  color:#1f2937;
+  transition:.2s;
+}
+
+.language-menu button:hover{
+  background:#eef8f6;
+  color:#2563eb;
+}
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#home" class="brand">
+      <img src="aymi-logo.jpg" alt="AYMI logo">
+      <span>AYMI</span>
+    </a>
+
+    <nav class="menu">
+      <a href="#home" data-key="menu_home">Главная</a>
+<a href="#about" data-key="menu_about">О бренде</a>
+<a href="#catalog" data-key="menu_catalog">Каталог</a>
+<a href="#wholesale" data-key="menu_wholesale">Оптовикам</a>
+<a href="#contact" data-key="menu_contact">Контакты</a>
+<a href="documents.html" data-key="menu_docs">Документы</a>
+    </nav>
+    <div class="language">
+ <button class="language-btn" id="languageBtn" onclick="toggleLangMenu()">🌐 RU</button>
+  <div class="language-menu" id="languageMenu">
+    <button onclick="setLang('ru')">Русский</button>
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('kg')">Кыргызча</button>
+    <button onclick="setLang('kz')">Қазақша</button>
+    <button onclick="setLang('uz')">O'zbekcha</button>
+    <button onclick="setLang('tr')">Türkçe</button>
+    <button onclick="setLang('ar')">العربية</button>
+  </div>
+</div>
+    <a href="#contact" class="btn btn-light">Заказать</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <div class="badge">Эко бренд женской гигиены</div>
+        <h1 data-key="hero_title">AYMI — натуральные гигиенические эко прокладки нового поколения</h1>
+        <p>
+Бренд женской гигиены, объединяющий современные материалы, мягкость и комфорт. Дневные и ночные прокладки разработаны для надёжной защиты и уверенности в течение всего дня и ночи.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Оставить заявку</a>
+          <a href="#wholesale" class="btn btn-outline">Для партнёров</a>
+        </div>
+      </div>
+
+      <div class="hero-logo reveal">
+        <img src="aymi-logo.jpg" alt="AYMI">
+      <div class="float-card float-1">
+  <svg viewBox="0 0 24 24">
+    <path d="M5 13C5 7 9 4 18 4C18 13 15 18 9 18"></path>
+    <path d="M9 18C9 14 11 11 18 4"></path>
+  </svg>
+ Эко комфорт
+</div>
+
+<div class="float-card float-2">
+  <svg viewBox="0 0 24 24">
+    <path d="M12 3C12 3 7 9 7 13a5 5 0 0010 0c0-4-5-10-5-10z"></path>
+  </svg>
+  Свежесть 24/7
+</div>
+      </div>
+    </div>
+  </section>
+  <section id="trust">
+  <div class="container">
+    <div class="section-title reveal">
+      <span></span>
+      <h2>Почему выбирают AYMI</h2>
+      <p>
+        AYMI — это не просто гигиенические прокладки, а современный эко-бренд,
+        созданный для комфорта, уверенности и заботы каждый день.
+      </p>
+    </div>
+
+    <div class="cards">
+      <div class="card reveal">
+<div class="icon">
+<svg viewBox="0 0 24 24">
+<path d="M5 13C5 7 9 4 18 4C18 13 15 18 9 18"></path>
+<path d="M9 18C9 14 11 11 18 4"></path>
+</svg>
+</div>
+        <h3>Мягкий хлопковый слой</h3>
+        <p>Деликатно соприкасается с кожей и обеспечивает комфорт при ежедневном использовании.</p>
+      </div>
+
+      <div class="card reveal">
+        <div class="icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3C12 3 7 9 7 13a5 5 0 0010 0c0-4-5-10-5-10z"></path>
+</svg>
+</div>
+        <h3>Дышащая структура</h3>
+        <p>Способствует циркуляции воздуха и помогает поддерживать ощущение свежести.</p>
+      </div>
+
+      <div class="card reveal">
+        <div class="icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3L19 6V11C19 16 16 19 12 21C8 19 5 16 5 11V6L12 3Z"></path>
+</svg>
+</div>
+        <h3>Надёжная защита</h3>
+        <p>Современная впитывающая структура помогает сохранять комфорт и уверенность в течение дня.</p>
+      </div>
+
+      <div class="card reveal">
+        <div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M12 3L14.5 9.5L21 12L14.5 14.5L12 21L9.5 14.5L3 12L9.5 9.5L12 3Z"></path>
+  </svg>
+</div>
+        <h3>Tea Polyphenol</h3>
+        <p>Специальный компонент на основе чайных полифенолов используется в структуре продукции AYMI.</p>
+      </div>
+
+      <div class="card reveal">
+       <div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M3 21V10L9 14V10L15 14V3L21 7V21H3Z"></path>
+    <path d="M7 21V17"></path>
+    <path d="M12 21V17"></path>
+    <path d="M17 21V17"></path>
+  </svg>
+</div>
+        <h3>Anion Technology</h3>
+        <p>Современная технология, применяемая в составе продукции для дополнительного комфорта.</p>
+      </div>
+
+      <div class="card reveal">
+        <div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M8 12A3 3 0 1 0 8 6A3 3 0 0 0 8 12Z"></path>
+    <path d="M16 12A3 3 0 1 0 16 6A3 3 0 0 0 16 12Z"></path>
+    <path d="M3 20C3 17 5 15 8 15"></path>
+    <path d="M21 20C21 17 19 15 16 15"></path>
+  </svg>
+</div>
+        <h3>Nano Silver</h3>
+        <p>Наносеребро используется как один из компонентов современной многослойной структуры продукции.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section id="about" class="about">
+    <div class="container about-box">
+      <div class="about-text reveal">
+        <h2>О бренде AYMI</h2>
+        <p>
+          AYMI — это современный бренд натуральных гигиенических эко прокладок,
+          который делает акцент на безопасности, мягкости, комфорте и красивой подаче продукта.
+        </p>
+        <p>
+          Наша цель — создать узнаваемый бренд, которому доверяют покупательницы,
+          магазины, аптеки и оптовые партнёры.
+        </p>
+      </div>
+
+      <div class="stats reveal">
+        <div class="stat">
+          <strong>Eco</strong>
+          <span>ориентир на натуральность</span>
+        </div>
+        <div class="stat">
+          <strong>24/7</strong>
+          <span>комфорт каждый день</span>
+        </div>
+        <div class="stat">
+          <strong>B2B</strong>
+          <span>оптовое развитие</span>
+        </div>
+        <div class="stat">
+          <strong>Brand</strong>
+          <span>готовность к росту</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalog" class="catalog">
+    <div class="container">
+      <div class="section-title reveal">
+        <span>Каталог</span>
+        <h2>Продукция AYMI</h2>
+        <p>Сейчас мы закладываем основу каталога. Позже сюда добавим разные линейки, размеры, цены и карточки товаров.</p>
+      </div>
+
+      <div class="cards">
+        <div class="card product-card reveal">
+          <div class="icon"></div>
+          <h3>Прокладки</h3>
+          <p>Основная линейка женских гигиенических прокладок AYMI.</p>
+          <div class="price">Новинки</div>
+          <a href="pads.html" class="btn btn-primary">Открыть каталог</a>
+        </div>
+
+        <div class="card product-card reveal">
+          <div class="icon"></div>
+          <h3>Ежедневки</h3>
+          <p>Ежедневный комфорт и свежесть.</p>
+          <div class="price">-</div>
+         
+<span class="doc-btn" style="opacity:.75;cursor:not-allowed;">
+  Скоро будет добавлено
+</span>
+        </div>
+
+        <div class="card product-card reveal">
+          <div class="icon"></div>
+          <h3>Влажные и сухие салфетки</h3>
+          <p>Для ухода и гигиены каждый день.</p>
+          <div class="price">-</div>
+         
+<span class="doc-btn" style="opacity:.75;cursor:not-allowed;">
+  Скоро будет добавлено
+</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="benefits">
+    <div class="container">
+      <div class="section-title reveal">
+        <span></span>
+        <h2>Почему выгодно работать с AYMI</h2>
+      </div>
+
+      <div class="cards">
+        <div class="card reveal">
+          <div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M5 13C5 7 9 4 18 4C18 13 15 18 9 18"></path>
+    <path d="M9 18C9 14 11 11 18 4"></path>
+  </svg>
+</div>
+          <h3>Долгосрочное сотрудничество</h3>
+          <p>Мы заинтересованы в построении стабильных партнёрских отношений и взаимовыгодном развитии.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M3 12H16"></path>
+    <path d="M6 8H20"></path>
+    <path d="M8 16H18"></path>
+  </svg>
+</div>
+          <h3>Сертификаты и документы</h3>
+          <p>Вся необходимая документация и результаты лабораторных исследований доступны для ознакомления.</p>
+        </div>
+
+        <div class="card reveal">
+        <div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M3 21V10L9 14V10L15 14V3L21 7V21H3Z"></path>
+    <path d="M7 21V17"></path>
+    <path d="M12 21V17"></path>
+    <path d="M17 21V17"></path>
+  </svg>
+</div>
+          <h3>Оптовые поставки</h3>
+          <p>Работаем с оптовыми покупателями, дистрибьюторами и партнёрами, заинтересованными в развитии бренда AYMI.</p>
+        </div>
+
+        <div class="card reveal">
+<div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M3 7L12 3L21 7L12 11L3 7Z"></path>
+    <path d="M3 7V17L12 21L21 17V7"></path>
+  </svg>
+</div>
+          <h3>Удобная упаковка</h3>
+          <p>В каждой коробке находится 10 индивидуально упакованных изделий, что обеспечивает удобство хранения, транспортировки и продажи.
+          Вся продукция полностью готова к продаже и поставляется в фирменной упаковке</p>
+        </div>
+
+        <div class="card reveal">
+<div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M21 15A2 2 0 0 1 19 17H8L3 21V5A2 2 0 0 1 5 3H19A2 2 0 0 1 21 5Z"></path>
+  </svg>
+</div>
+          <h3>Быстрая связь</h3>
+          <p>Покупатели и партнёры смогут быстро оставить заявку через сайт.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">
+  <svg viewBox="0 0 24 24">
+    <path d="M4 18L10 12L14 16L20 8"></path>
+    <path d="M20 8V14"></path>
+    <path d="M20 8H14"></path>
+  </svg>
+</div>
+          <h3>Развитие поставок</h3>
+          <p>Постепенно расширяем географию сотрудничества и открыты к работе с новыми регионами и странами.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="wholesale">
+    <div class="container">
+      <div class="wholesale-box reveal">
+        <div>
+          <h2>Оптовое сотрудничество</h2>
+          <p>
+AYMI приглашает к сотрудничеству оптовые компании, дистрибьюторов, торговые сети, маркетплейсы и региональных партнёров.
+
+Мы открыты для поставок в Кыргызстан, страны СНГ и другие регионы, рассматривая каждое предложение как основу для долгосрочного и взаимовыгодного сотрудничества.
+          </p>
+          <a href="#contact" class="btn btn-light">Стать партнёром</a>
+        </div>
+
+        <div class="partners">
+          <span>Дистрибьюторы</span>
+          <span>Торговые сети</span>
+          <span>Аптечные сети</span>
+          <span>Дистрибьюторы</span>
+          <span>Маркетплейсы</span>
+          <span>Оптовые поставки</span>
+          <span>Региональные представители</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="faq" style="padding:80px 16px;background:#f7f7f7;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:35px;">
+      <strong style="color:#2563eb;"></strong>
+      <h2 style="font-size:36px;margin:10px 0;color:#1f2937;">Часто задаваемые вопросы</h2>
+      <p style="color:#6b7280;font-size:18px;">Здесь собраны ответы на самые популярные вопросы о продукции AYMI, поставках и условиях сотрудничества.</p>
+    </div>
+
+    <div class="aymi-faq-item">
+      <button class="aymi-faq-question">Безопасны ли прокладки AYMI? <span>+</span></button>
+      <div class="aymi-faq-answer">Да. Продукция AYMI производится на современной фабрике с соблюдением международных стандартов качества. Каждая партия проходит необходимые проверки, а результаты лабораторных исследований и регистрационные документы доступны в разделе «Документы».</div>
+    </div>
+
+    <div class="aymi-faq-item">
+      <button class="aymi-faq-question">С кем сотрудничает AYMI? <span>+</span></button>
+      <div class="aymi-faq-answer">Мы сотрудничаем с дистрибьюторами, оптовыми компаниями, торговыми и аптечными сетями, маркетплейсами, а также региональными партнёрами. Рассматриваем предложения о сотрудничестве из Кыргызстана, стран СНГ и других регионов.</div>
+    </div>
+
+    <div class="aymi-faq-item">
+      <button class="aymi-faq-question">Возможны ли поставки в другие страны? <span>+</span></button>
+      <div class="aymi-faq-answer">Да. Мы открыты к сотрудничеству с зарубежными партнёрами и готовы обсуждать экспортные поставки в соответствии с требованиями страны назначения.</div>
+    </div>
+
+    <div class="aymi-faq-item">
+      <button class="aymi-faq-question">Какие документы предоставляет AYMI?<span>+</span></button>
+      <div class="aymi-faq-answer">По запросу предоставляются сертификаты соответствия, регистрационные документы и результаты лабораторных испытаний продукции. Все основные документы размещены на официальном сайте.</div>
+    </div>
+
+    <div class="aymi-faq-item">
+      <button class="aymi-faq-question">Как стать партнёром AYMI?<span>+</span></button>
+      <div class="aymi-faq-answer">Свяжитесь с нами через WhatsApp, Telegram или форму обратной связи на сайте. Мы предоставим информацию об условиях сотрудничества, ассортименте и оптовых поставках.</div>
+  </div>
+</section>
+
+<style>
+  .aymi-faq-item{
+    background:#fff;
+    border-radius:18px;
+    margin-bottom:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    overflow:hidden;
+  }
+
+  .aymi-faq-question{
+    width:100%;
+    border:none;
+    background:#fff;
+    padding:20px 24px;
+    font-size:18px;
+    font-weight:800;
+    color:#1f2937;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+    text-align:left;
+  }
+
+  .aymi-faq-question span{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:linear-gradient(90deg,#58a6ff,#5fc7a1);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.3s;
+  }
+
+  .aymi-faq-answer{
+    max-height:0;
+    overflow:hidden;
+    padding:0 24px;
+    color:#6b7280;
+    font-size:16px;
+    transition:.35s ease;
+  }
+
+  .aymi-faq-item.active .aymi-faq-answer{
+    max-height:180px;
+    padding:0 24px 22px;
+  }
+
+  .aymi-faq-item.active .aymi-faq-question span{
+    transform:rotate(45deg);
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.aymi-faq-item').forEach(item => {
+    item.querySelector('.aymi-faq-question').addEventListener('click', () => {
+      item.classList.toggle('active');
+    });
+  });
+</script>
+<section id="contact">
+  <div class="container contact-grid">
+
+    <div class="contact-info reveal">
+      <h2>Контакты AYMI</h2>
+      <p>
+        Оставьте заявку, если хотите заказать продукцию, узнать цену,
+        обсудить опт или партнёрство.
+      </p>
+
+      <div style="margin-top:30px;display:flex;gap:15px;flex-wrap:wrap;">
+        <a href="https://wa.me/996555662779"
+           target="_blank"
+           class="btn btn-primary"
+           style="background:#25D366;border:none;">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"
+     width="20"
+     height="20"
+     style="filter:brightness(0) invert(1);vertical-align:middle;margin-right:8px;">
+
+WhatsApp
+        </a>
+
+        <a href="https://www.instagram.com/aymi.kg?igsh=emFlMWlqZ2trbDNo&utm_source=qr"
+           target="_blank"
+           class="btn btn-primary"
+           style="background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);border:none;">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"
+     width="20"
+     height="20"
+     style="filter:brightness(0) invert(1);vertical-align:middle;margin-right:8px;">
+
+Instagram
+        </a>
+       <a href="https://t.me/aymi_kg"
+   target="_blank"
+   class="btn btn-primary"
+   style="background:linear-gradient(135deg,#27A7E7,#229ED9);border:none;display:flex;align-items:center;gap:10px;">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+<path d="M21.944 4.668a1.5 1.5 0 0 0-1.69-.22L3.58 12.02a1.5 1.5 0 0 0 .13 2.78l4.27 1.57 1.57 4.27a1.5 1.5 0 0 0 2.78.13l7.57-16.67a1.5 1.5 0 0 0-.22-1.69zM9.8 15.05l-.68 3.06-.88-2.4 8.68-8.68-7.12 8.02z"/>
+</svg>
+
+Telegram
+</a>      
+</div>
+    </div>
+
+    <form class="contact-form reveal" id="contactForm">
+      <input type="text" id="name" placeholder="Ваше имя" required>
+      <input type="tel" id="phone" placeholder="Телефон" required>
+      <textarea id="message" placeholder="Ваше сообщение" required></textarea>
+      <button class="btn btn-primary" type="submit">Отправить заявку</button>
+      <p id="formStatus"></p>
+    </form>
+
+  </div>
+</section>
+
+</main>
+<a class="whatsapp-float" href="#contact">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+    <path d="M21 15A2 2 0 0 1 19 17H8L3 21V5A2 2 0 0 1 5 3H19A2 2 0 0 1 21 5V15Z"
+          stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</a>
+
+<footer>
+  <strong>AYMI</strong><br>
+  © 2026. Натуральный комфорт каждый день.
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+
+  function revealOnScroll() {
+    reveals.forEach(item => {
+      const windowHeight = window.innerHeight;
+      const itemTop = item.getBoundingClientRect().top;
+      if (itemTop < windowHeight - 80) {
+        item.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+
+  const form = document.getElementById('contactForm');
+  const statusText = document.getElementById('formStatus');
+
+  form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  const whatsappNumber = '996555662779';
+
+  const currentLang = localStorage.getItem("aymiLang") || "ru";
+  const msgTitle = window.aymiTranslations?.[currentLang]?.whatsapp_message || "Здравствуйте! Новая заявка с сайта AYMI:";
+  const text =
+    `${msgTitle}%0A%0A` +
+    `Имя/Name: ${name}%0A` +
+    `Телефон/Phone: ${phone}%0A` +
+    `Сообщение/Message: ${message}`;
+
+  window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+
+  statusText.textContent = window.aymiTranslations?.[currentLang]?.form_status || 'Откроется WhatsApp для отправки заявки.';
+  statusText.style.color = '#2563eb';
+
+  form.reset();
+});
+
+ 
+  const faqItems = document.querySelectorAll('.faq-item');
+
+faqItems.forEach(item => {
+  const question = item.querySelector('.faq-question');
+
+  question.addEventListener('click', () => {
+    item.classList.toggle('active');
+  });
+});
+</script>
+<script>
+function toggleLangMenu(){
+  document.getElementById("languageMenu").classList.toggle("show");
+}
+
+document.addEventListener("click", function(e){
+  const language = document.querySelector(".language");
+  if(language && !language.contains(e.target)){
+    document.getElementById("languageMenu").classList.remove("show");
+  }
+});
+</script>
+<script>
+window.aymiTranslations = {
+  ru: {
+    menu_home:"Главная", menu_about:"О бренде", menu_catalog:"Каталог", menu_wholesale:"Оптовикам", menu_contact:"Контакты", menu_docs:"Документы", btn_order:"Заказать",
+    hero_badge:"Эко бренд женской гигиены", hero_title:"AYMI — натуральные гигиенические эко прокладки нового поколения", hero_text:"Бренд женской гигиены, объединяющий современные материалы, мягкость и комфорт. Дневные и ночные прокладки разработаны для надёжной защиты и уверенности в течение всего дня и ночи.", hero_btn1:"Оставить заявку", hero_btn2:"Для партнёров", float_eco:"Эко комфорт", float_fresh:"Свежесть 24/7",
+    trust_title:"Почему выбирают AYMI", trust_text:"AYMI — это не просто гигиенические прокладки, а современный эко-бренд, созданный для комфорта, уверенности и заботы каждый день.", t1:"Мягкий хлопковый слой", t1d:"Деликатно соприкасается с кожей и обеспечивает комфорт при ежедневном использовании.", t2:"Дышащая структура", t2d:"Способствует циркуляции воздуха и помогает поддерживать ощущение свежести.", t3:"Надёжная защита", t3d:"Современная впитывающая структура помогает сохранять комфорт и уверенность в течение дня.", t4:"Tea Polyphenol", t4d:"Специальный компонент на основе чайных полифенолов используется в структуре продукции AYMI.", t5:"Anion Technology", t5d:"Современная технология, применяемая в составе продукции для дополнительного комфорта.", t6:"Nano Silver", t6d:"Наносеребро используется как один из компонентов современной многослойной структуры продукции.",
+    about_title:"О бренде AYMI", about1:"AYMI — это современный бренд натуральных гигиенических эко прокладок, который делает акцент на безопасности, мягкости, комфорте и красивой подаче продукта.", about2:"Наша цель — создать узнаваемый бренд, которому доверяют покупательницы, магазины, аптеки и оптовые партнёры.", s1:"Eco", s1d:"ориентир на натуральность", s2:"24/7", s2d:"комфорт каждый день", s3:"B2B", s3d:"оптовое развитие", s4:"Brand", s4d:"готовность к росту",
+    catalog_label:"Каталог", catalog_title:"Продукция AYMI", catalog_text:"Сейчас мы закладываем основу каталога. Позже сюда добавим разные линейки, размеры, цены и карточки товаров.", c1:"Прокладки", c1d:"Основная линейка женских гигиенических прокладок AYMI.", cnew:"Новинки", copen:"Открыть каталог", c2:"Ежедневки", c2d:"Ежедневный комфорт и свежесть.", c3:"Влажные и сухие салфетки", c3d:"Для ухода и гигиены каждый день.", soon:"Скоро будет добавлено",
+    benefits_title:"Почему выгодно работать с AYMI", b1:"Долгосрочное сотрудничество", b1d:"Мы заинтересованы в построении стабильных партнёрских отношений и взаимовыгодном развитии.", b2:"Сертификаты и документы", b2d:"Вся необходимая документация и результаты лабораторных исследований доступны для ознакомления.", b3:"Оптовые поставки", b3d:"Работаем с оптовыми покупателями, дистрибьюторами и партнёрами, заинтересованными в развитии бренда AYMI.", b4:"Удобная упаковка", b4d:"В каждой коробке находится 10 индивидуально упакованных изделий, что обеспечивает удобство хранения, транспортировки и продажи. Вся продукция полностью готова к продаже и поставляется в фирменной упаковке.", b5:"Быстрая связь", b5d:"Покупатели и партнёры смогут быстро оставить заявку через сайт.", b6:"Развитие поставок", b6d:"Постепенно расширяем географию сотрудничества и открыты к работе с новыми регионами и странами.",
+    wholesale_title:"Оптовое сотрудничество", wholesale_text:"AYMI приглашает к сотрудничеству оптовые компании, дистрибьюторов, торговые сети, маркетплейсы и региональных партнёров. Мы открыты для поставок в Кыргызстан, страны СНГ и другие регионы, рассматривая каждое предложение как основу для долгосрочного и взаимовыгодного сотрудничества.", wholesale_btn:"Стать партнёром", p1:"Дистрибьюторы", p2:"Торговые сети", p3:"Аптечные сети", p4:"Дистрибьюторы", p5:"Маркетплейсы", p6:"Оптовые поставки", p7:"Региональные представители",
+    faq_title:"Часто задаваемые вопросы", faq_text:"Здесь собраны ответы на самые популярные вопросы о продукции AYMI, поставках и условиях сотрудничества.", q1:"Безопасны ли прокладки AYMI?", a1:"Да. Продукция AYMI производится на современной фабрике с соблюдением международных стандартов качества. Каждая партия проходит необходимые проверки, а результаты лабораторных исследований и регистрационные документы доступны в разделе «Документы».", q2:"С кем сотрудничает AYMI?", a2:"Мы сотрудничаем с дистрибьюторами, оптовыми компаниями, торговыми и аптечными сетями, маркетплейсами, а также региональными партнёрами. Рассматриваем предложения о сотрудничестве из Кыргызстана, стран СНГ и других регионов.", q3:"Возможны ли поставки в другие страны?", a3:"Да. Мы открыты к сотрудничеству с зарубежными партнёрами и готовы обсуждать экспортные поставки в соответствии с требованиями страны назначения.", q4:"Какие документы предоставляет AYMI?", a4:"По запросу предоставляются сертификаты соответствия, регистрационные документы и результаты лабораторных испытаний продукции. Все основные документы размещены на официальном сайте.", q5:"Как стать партнёром AYMI?", a5:"Свяжитесь с нами через WhatsApp, Telegram или форму обратной связи на сайте. Мы предоставим информацию об условиях сотрудничества, ассортименте и оптовых поставках.",
+    contact_title:"Контакты AYMI", contact_text:"Оставьте заявку, если хотите заказать продукцию, узнать цену, обсудить опт или партнёрство.", name_ph:"Ваше имя", phone_ph:"Телефон", msg_ph:"Ваше сообщение", form_btn:"Отправить заявку", form_status:"Откроется WhatsApp для отправки заявки.", whatsapp_message:"Здравствуйте! Новая заявка с сайта AYMI:", footer:"© 2026. Натуральный комфорт каждый день."
+  },
+  en: {
+    menu_home:"Home", menu_about:"About", menu_catalog:"Catalog", menu_wholesale:"Wholesale", menu_contact:"Contacts", menu_docs:"Documents", btn_order:"Order",
+    hero_badge:"Eco feminine hygiene brand", hero_title:"AYMI — natural eco sanitary pads of a new generation", hero_text:"AYMI is a feminine hygiene brand combining modern materials, softness and comfort. Day and night pads are designed for reliable protection and confidence throughout the day and night.", hero_btn1:"Send request", hero_btn2:"For partners", float_eco:"Eco comfort", float_fresh:"Freshness 24/7",
+    trust_title:"Why choose AYMI", trust_text:"AYMI is more than sanitary pads. It is a modern eco brand created for comfort, confidence and everyday care.", t1:"Soft cotton layer", t1d:"Gently touches the skin and provides comfort for everyday use.", t2:"Breathable structure", t2d:"Supports air circulation and helps maintain a feeling of freshness.", t3:"Reliable protection", t3d:"The modern absorbent structure helps maintain comfort and confidence during the day.", t4:"Tea Polyphenol", t4d:"A component based on tea polyphenols is used in the structure of AYMI products.", t5:"Anion Technology", t5d:"A modern technology used in the product structure for additional comfort.", t6:"Nano Silver", t6d:"Nano silver is used as one of the components of the modern multilayer structure.",
+    about_title:"About AYMI", about1:"AYMI is a modern brand of natural eco sanitary pads with a focus on safety, softness, comfort and premium product presentation.", about2:"Our goal is to build a recognizable brand trusted by customers, stores, pharmacies and wholesale partners.", s1:"Eco", s1d:"focus on natural care", s2:"24/7", s2d:"day and night comfort", s3:"B2B", s3d:"wholesale development", s4:"Brand", s4d:"ready for growth",
+    catalog_label:"Catalog", catalog_title:"AYMI products", catalog_text:"We are building the foundation of the catalog. More product lines, sizes, prices and product cards will be added later.", c1:"Sanitary pads", c1d:"The main line of AYMI feminine hygiene pads.", cnew:"New arrivals", copen:"Open catalog", c2:"Daily liners", c2d:"Everyday comfort and freshness.", c3:"Wet and dry wipes", c3d:"For daily care and hygiene.", soon:"Coming soon",
+    benefits_title:"Why it is profitable to work with AYMI", b1:"Long-term cooperation", b1d:"We are interested in building stable partnerships and mutually beneficial development.", b2:"Certificates and documents", b2d:"All required documentation and laboratory test results are available for review.", b3:"Wholesale supplies", b3d:"We work with wholesale buyers, distributors and partners interested in developing the AYMI brand.", b4:"Convenient packaging", b4d:"Each box contains 10 individually packed items, making storage, transportation and sale convenient. Products are ready for sale in branded packaging.", b5:"Fast communication", b5d:"Customers and partners can quickly submit a request through the website.", b6:"Supply development", b6d:"We are gradually expanding our cooperation geography and are open to new regions and countries.",
+    wholesale_title:"Wholesale cooperation", wholesale_text:"AYMI invites wholesale companies, distributors, retail chains, marketplaces and regional partners to cooperate. We are open to supplies in Kyrgyzstan, CIS countries and other regions, considering every proposal as a basis for long-term and mutually beneficial cooperation.", wholesale_btn:"Become a partner", p1:"Distributors", p2:"Retail chains", p3:"Pharmacy chains", p4:"Distributors", p5:"Marketplaces", p6:"Wholesale supplies", p7:"Regional representatives",
+    faq_title:"Frequently asked questions", faq_text:"Here are answers to the most common questions about AYMI products, supplies and cooperation terms.", q1:"Are AYMI pads safe?", a1:"Yes. AYMI products are manufactured at a modern factory in compliance with international quality standards. Each batch passes required checks, and laboratory results and registration documents are available in the Documents section.", q2:"Who does AYMI cooperate with?", a2:"We cooperate with distributors, wholesale companies, retail and pharmacy chains, marketplaces and regional partners. We consider cooperation proposals from Kyrgyzstan, CIS countries and other regions.", q3:"Are supplies to other countries possible?", a3:"Yes. We are open to cooperation with foreign partners and ready to discuss export supplies according to the requirements of the destination country.", q4:"What documents does AYMI provide?", a4:"Certificates of conformity, registration documents and laboratory test results are provided upon request. The main documents are available on the official website.", q5:"How to become an AYMI partner?", a5:"Contact us via WhatsApp, Telegram or the website feedback form. We will provide information about cooperation terms, assortment and wholesale supplies.",
+    contact_title:"AYMI contacts", contact_text:"Leave a request if you want to order products, learn the price, discuss wholesale or partnership.", name_ph:"Your name", phone_ph:"Phone", msg_ph:"Your message", form_btn:"Send request", form_status:"WhatsApp will open to send the request.", whatsapp_message:"Hello! New request from the AYMI website:", footer:"© 2026. Natural comfort every day."
+  },
+  kg: {
+    menu_home:"Башкы бет", menu_about:"Бренд жөнүндө", menu_catalog:"Каталог", menu_wholesale:"Дүң соода", menu_contact:"Байланыш", menu_docs:"Документтер", btn_order:"Заказ берүү",
+    hero_badge:"Аялдар гигиенасы үчүн эко бренд", hero_title:"AYMI — жаңы муундагы табигый эко гигиеналык прокладкалар", hero_text:"AYMI — заманбап материалдарды, жумшактыкты жана ыңгайлуулукту бириктирген аялдар гигиенасы бренди. Күндүзгү жана түнкү прокладкалар күн-түн бою ишенимдүү коргоо үчүн иштелип чыккан.", hero_btn1:"Заявка калтыруу", hero_btn2:"Өнөктөштөр үчүн", float_eco:"Эко ыңгайлуулук", float_fresh:"24/7 сергектик",
+    trust_title:"Эмне үчүн AYMI тандашат", trust_text:"AYMI — жөн гана гигиеналык прокладка эмес, күн сайын ыңгайлуулук, ишеним жана кам көрүү үчүн түзүлгөн заманбап эко бренд.", t1:"Жумшак пахта катмары", t1d:"Териге назик тийип, күнүмдүк колдонууда ыңгайлуулук берет.", t2:"Дем алуучу түзүлүш", t2d:"Аба айлануусуна жардам берип, сергектик сезимин сактоого көмөктөшөт.", t3:"Ишенимдүү коргоо", t3d:"Заманбап сиңирүүчү түзүлүш күн ичинде ыңгайлуулукту жана ишенимди сактоого жардам берет.", t4:"Tea Polyphenol", t4d:"Чай полифенолдорунун негизиндеги компонент AYMI продукциясынын түзүлүшүндө колдонулат.", t5:"Anion Technology", t5d:"Кошумча ыңгайлуулук үчүн колдонулган заманбап технология.", t6:"Nano Silver", t6d:"Нано күмүш көп катмарлуу заманбап түзүлүштүн компоненттеринин бири катары колдонулат.",
+    about_title:"AYMI бренди жөнүндө", about1:"AYMI — коопсуздукка, жумшактыкка, ыңгайлуулукка жана продуктунун кооз сунушталышына басым жасаган табигый эко прокладкалар бренди.", about2:"Биздин максат — сатып алуучулар, дүкөндөр, аптекалар жана дүң өнөктөштөр ишене турган таанымал бренд түзүү.", s1:"Eco", s1d:"табигыйлыкка багыт", s2:"24/7", s2d:"күн сайын ыңгайлуулук", s3:"B2B", s3d:"дүң өнүгүү", s4:"Brand", s4d:"өсүүгө даяр бренд",
+    catalog_label:"Каталог", catalog_title:"AYMI продукциясы", catalog_text:"Биз каталогдун негизин түзүп жатабыз. Кийин ар кандай линиялар, өлчөмдөр, баалар жана товар карточкалары кошулат.", c1:"Прокладкалар", c1d:"AYMI аялдар гигиенасы прокладкаларынын негизги линиясы.", cnew:"Жаңылыктар", copen:"Каталогду ачуу", c2:"Күнүмдүк прокладкалар", c2d:"Күнүмдүк ыңгайлуулук жана сергектик.", c3:"Нымдуу жана кургак салфеткалар", c3d:"Күнүмдүк кам көрүү жана гигиена үчүн.", soon:"Жакында кошулат",
+    benefits_title:"AYMI менен иштөө эмне үчүн пайдалуу", b1:"Узак мөөнөттүү кызматташуу", b1d:"Биз туруктуу өнөктөштүк мамилелерди жана эки тарапка пайдалуу өнүгүүнү курууга кызыкдарбыз.", b2:"Сертификаттар жана документтер", b2d:"Бардык керектүү документтер жана лабораториялык изилдөөлөрдүн жыйынтыктары таанышуу үчүн жеткиликтүү.", b3:"Дүң жеткирүүлөр", b3d:"AYMI брендин өнүктүрүүгө кызыкдар дүң сатып алуучулар, дистрибьюторлор жана өнөктөштөр менен иштейбиз.", b4:"Ыңгайлуу таңгак", b4d:"Ар бир кутуда 10 даана өзүнчө таңгакталган буюм бар, бул сактоого, ташууга жана сатууга ыңгайлуу. Продукция фирмалык таңгакта сатууга даяр.", b5:"Тез байланыш", b5d:"Сатып алуучулар жана өнөктөштөр сайт аркылуу тез заявка калтыра алышат.", b6:"Жеткирүү багыттарын өнүктүрүү", b6d:"Кызматташуу географиясын акырындык менен кеңейтип, жаңы аймактар жана өлкөлөр менен иштөөгө ачыкпыз.",
+    wholesale_title:"Дүң кызматташуу", wholesale_text:"AYMI дүң компанияларды, дистрибьюторлорду, соода тармактарын, маркетплейстерди жана регионалдык өнөктөштөрдү кызматташууга чакырат. Кыргызстанга, КМШ өлкөлөрүнө жана башка аймактарга жеткирүүгө ачыкпыз.", wholesale_btn:"Өнөктөш болуу", p1:"Дистрибьюторлор", p2:"Соода тармактары", p3:"Аптека тармактары", p4:"Дистрибьюторлор", p5:"Маркетплейстер", p6:"Дүң жеткирүү", p7:"Регионалдык өкүлдөр",
+    faq_title:"Көп берилүүчү суроолор", faq_text:"Бул жерде AYMI продукциясы, жеткирүү жана кызматташуу шарттары боюнча эң көп берилген суроолорго жооптор бар.", q1:"AYMI прокладкалары коопсузбу?", a1:"Ооба. AYMI продукциясы заманбап фабрикада сапат стандарттарын сактоо менен чыгарылат. Документтер жана лабораториялык жыйынтыктар «Документтер» бөлүмүндө жеткиликтүү.", q2:"AYMI кимдер менен кызматташат?", a2:"Биз дистрибьюторлор, дүң компаниялар, соода жана аптека тармактары, маркетплейстер жана регионалдык өнөктөштөр менен иштейбиз.", q3:"Башка өлкөлөргө жеткирүү мүмкүнбү?", a3:"Ооба. Чет өлкөлүк өнөктөштөр менен кызматташууга ачыкпыз жана экспорттук жеткирүүлөрдү талкуулоого даярбыз.", q4:"AYMI кандай документтерди берет?", a4:"Суроо-талап боюнча сертификаттар, каттоо документтери жана лабораториялык изилдөөлөрдүн жыйынтыктары берилет.", q5:"AYMI өнөктөшү кантип болуу керек?", a5:"WhatsApp, Telegram же сайттагы форма аркылуу биз менен байланышыңыз. Биз кызматташуу шарттары жана дүң жеткирүүлөр тууралуу маалымат беребиз.",
+    contact_title:"AYMI байланыштары", contact_text:"Продукцияга заказ берүү, баасын билүү же дүң кызматташууну талкуулоо үчүн заявка калтырыңыз.", name_ph:"Атыңыз", phone_ph:"Телефон", msg_ph:"Билдирүүңүз", form_btn:"Заявка жөнөтүү", form_status:"Заявканы жөнөтүү үчүн WhatsApp ачылат.", whatsapp_message:"Салам! AYMI сайтынан жаңы заявка:", footer:"© 2026. Күн сайын табигый ыңгайлуулук."
+  }
+};
+
+["kz","uz","tr","ar"].forEach(lang => {
+  window.aymiTranslations[lang] = Object.assign({}, window.aymiTranslations.en);
+});
+
+Object.assign(window.aymiTranslations.kz, {
+  menu_home:"Басты бет", menu_about:"Бренд туралы", menu_catalog:"Каталог", menu_wholesale:"Көтерме", menu_contact:"Байланыс", menu_docs:"Құжаттар", btn_order:"Тапсырыс беру",
+  hero_title:"AYMI — жаңа буындағы табиғи эко гигиеналық төсемдер", hero_badge:"Әйелдер гигиенасына арналған эко бренд", hero_btn1:"Өтінім қалдыру", hero_btn2:"Серіктестерге",
+  trust_title:"Неліктен AYMI таңдайды", about_title:"AYMI бренді туралы", catalog_label:"Каталог", catalog_title:"AYMI өнімдері", benefits_title:"AYMI-мен жұмыс істеу неге тиімді", wholesale_title:"Көтерме ынтымақтастық", wholesale_btn:"Серіктес болу", faq_title:"Жиі қойылатын сұрақтар", contact_title:"AYMI байланыстары", form_name:"Атыңыз", form_phone:"Телефон", form_message:"Хабарламаңыз", form_button:"Өтінім жіберу", footer:"© 2026. Күн сайын табиғи жайлылық."
+});
+Object.assign(window.aymiTranslations.uz, {
+  menu_home:"Bosh sahifa", menu_about:"Brend haqida", menu_catalog:"Katalog", menu_wholesale:"Ulgurji", menu_contact:"Aloqa", menu_docs:"Hujjatlar", btn_order:"Buyurtma berish",
+  hero_title:"AYMI — yangi avlod tabiiy eko gigiyenik prokladkalari", hero_badge:"Ayollar gigiyenasi uchun eko brend", hero_btn1:"Ariza qoldirish", hero_btn2:"Hamkorlar uchun",
+  trust_title:"Nega AYMI tanlanadi", about_title:"AYMI brendi haqida", catalog_label:"Katalog", catalog_title:"AYMI mahsulotlari", benefits_title:"AYMI bilan ishlash nega foydali", wholesale_title:"Ulgurji hamkorlik", wholesale_btn:"Hamkor bo‘lish", faq_title:"Ko‘p beriladigan savollar", contact_title:"AYMI kontaktlari", form_name:"Ismingiz", form_phone:"Telefon", form_message:"Xabaringiz", form_button:"Ariza yuborish", footer:"© 2026. Har kuni tabiiy qulaylik."
+});
+Object.assign(window.aymiTranslations.tr, {
+  menu_home:"Ana sayfa", menu_about:"Marka hakkında", menu_catalog:"Katalog", menu_wholesale:"Toptan", menu_contact:"İletişim", menu_docs:"Belgeler", btn_order:"Sipariş ver",
+  hero_title:"AYMI — yeni nesil doğal eko hijyenik pedler", hero_badge:"Kadın hijyeni için eko marka", hero_btn1:"Talep gönder", hero_btn2:"Ortaklar için",
+  trust_title:"Neden AYMI seçilir", about_title:"AYMI hakkında", catalog_label:"Katalog", catalog_title:"AYMI ürünleri", benefits_title:"AYMI ile çalışmak neden avantajlı", wholesale_title:"Toptan iş birliği", wholesale_btn:"Ortak ol", faq_title:"Sık sorulan sorular", contact_title:"AYMI iletişim", form_name:"Adınız", form_phone:"Telefon", form_message:"Mesajınız", form_button:"Talep gönder", footer:"© 2026. Her gün doğal konfor."
+});
+Object.assign(window.aymiTranslations.ar, {
+  menu_home:"الرئيسية", menu_about:"عن العلامة", menu_catalog:"المنتجات", menu_wholesale:"الجملة", menu_contact:"التواصل", menu_docs:"الوثائق", btn_order:"اطلب الآن",
+  hero_title:"AYMI — فوط صحية طبيعية صديقة للبيئة من الجيل الجديد", hero_badge:"علامة صديقة للبيئة للعناية النسائية", hero_btn1:"إرسال طلب", hero_btn2:"للشركاء",
+  trust_title:"لماذا تختارين AYMI", about_title:"عن AYMI", catalog_label:"الكتالوج", catalog_title:"منتجات AYMI", benefits_title:"لماذا التعاون مع AYMI مربح", wholesale_title:"تعاون الجملة", wholesale_btn:"كن شريكًا", faq_title:"الأسئلة الشائعة", contact_title:"تواصل AYMI", form_name:"اسمك", form_phone:"الهاتف", form_message:"رسالتك", form_button:"إرسال الطلب", footer:"© 2026. راحة طبيعية كل يوم."
+});
+
+Object.assign(window.aymiTranslations.kz, {"menu_home": "Басты бет", "menu_about": "Бренд туралы", "menu_catalog": "Каталог", "menu_wholesale": "Көтерме", "menu_contact": "Байланыс", "menu_docs": "Құжаттар", "btn_order": "Тапсырыс беру", "hero_badge": "Әйелдер гигиенасына арналған эко бренд", "hero_title": "AYMI — жаңа буындағы табиғи эко гигиеналық төсемдер", "hero_text": "AYMI — заманауи материалдарды, жұмсақтық пен жайлылықты біріктіретін әйелдер гигиенасы бренді. Күндізгі және түнгі төсемдер күн мен түн бойы сенімді қорғаныс үшін жасалған.", "hero_btn1": "Өтінім қалдыру", "hero_btn2": "Серіктестерге", "float_eco": "Эко жайлылық", "float_fresh": "24/7 сергектік", "trust_title": "Неліктен AYMI таңдайды", "trust_text": "AYMI — жай ғана гигиеналық төсем емес, күнделікті жайлылық, сенімділік және күтім үшін жасалған заманауи эко бренд.", "t1": "Жұмсақ мақта қабаты", "t1d": "Теріге нәзік тиіп, күнделікті қолдануда жайлылық береді.", "t2": "Тыныс алатын құрылым", "t2d": "Ауа айналымына көмектесіп, сергектік сезімін сақтауға ықпал етеді.", "t3": "Сенімді қорғаныс", "t3d": "Заманауи сіңіргіш құрылым күн бойы жайлылық пен сенімділікті сақтауға көмектеседі.", "t4": "Tea Polyphenol", "t4d": "Шай полифенолдары негізіндегі компонент AYMI өнімдерінің құрылымында қолданылады.", "t5": "Anion Technology", "t5d": "Қосымша жайлылық үшін өнім құрылымында қолданылатын заманауи технология.", "t6": "Nano Silver", "t6d": "Нано күміс көп қабатты заманауи құрылымның компоненттерінің бірі ретінде қолданылады.", "about_title": "AYMI бренді туралы", "about1": "AYMI — қауіпсіздікке, жұмсақтыққа, жайлылыққа және өнімнің әдемі ұсынылуына мән беретін табиғи эко гигиеналық төсемдер бренді.", "about2": "Біздің мақсатымыз — сатып алушылар, дүкендер, дәріханалар және көтерме серіктестер сенетін танымал бренд қалыптастыру.", "s1": "Eco", "s1d": "табиғилыққа бағыт", "s2": "24/7", "s2d": "күнделікті жайлылық", "s3": "B2B", "s3d": "көтерме даму", "s4": "Brand", "s4d": "өсуге дайын бренд", "catalog_label": "Каталог", "catalog_title": "AYMI өнімдері", "catalog_text": "Біз каталогтың негізін қалыптастырып жатырмыз. Кейін өнім желілері, өлшемдер, бағалар және карточкалар қосылады.", "c1": "Гигиеналық төсемдер", "c1d": "AYMI әйелдер гигиеналық төсемдерінің негізгі желісі.", "cnew": "Жаңалықтар", "copen": "Каталогты ашу", "c2": "Күнделікті төсемдер", "c2d": "Күнделікті жайлылық пен сергектік.", "c3": "Ылғалды және құрғақ майлықтар", "c3d": "Күнделікті күтім және гигиена үшін.", "soon": "Жақында қосылады", "benefits_title": "AYMI-мен жұмыс істеу неге тиімді", "b1": "Ұзақ мерзімді ынтымақтастық", "b1d": "Біз тұрақты серіктестік қатынастар мен өзара тиімді дамуға мүдделіміз.", "b2": "Сертификаттар мен құжаттар", "b2d": "Барлық қажетті құжаттар мен зертханалық сынақ нәтижелері танысуға қолжетімді.", "b3": "Көтерме жеткізілімдер", "b3d": "AYMI брендін дамытуға қызығушылық танытқан көтерме сатып алушылармен, дистрибьюторлармен және серіктестермен жұмыс істейміз.", "b4": "Ыңғайлы қаптама", "b4d": "Әр қорапта жеке қапталған 10 бұйым бар, бұл сақтау, тасымалдау және сатуды ыңғайлы етеді. Өнім фирмалық қаптамада сатуға дайын.", "b5": "Жедел байланыс", "b5d": "Сатып алушылар мен серіктестер сайт арқылы тез өтінім қалдыра алады.", "b6": "Жеткізілімдерді дамыту", "b6d": "Ынтымақтастық географиясын біртіндеп кеңейтіп, жаңа өңірлер мен елдерге ашықпыз.", "wholesale_title": "Көтерме ынтымақтастық", "wholesale_text": "AYMI көтерме компанияларды, дистрибьюторларды, сауда желілерін, маркетплейстерді және өңірлік серіктестерді ынтымақтастыққа шақырады. Кыргызстан, ТМД елдері және басқа өңірлерге жеткізуге ашықпыз.", "wholesale_btn": "Серіктес болу", "p1": "Дистрибьюторлар", "p2": "Сауда желілері", "p3": "Дәріхана желілері", "p4": "Дистрибьюторлар", "p5": "Маркетплейстер", "p6": "Көтерме жеткізілімдер", "p7": "Өңірлік өкілдер", "faq_title": "Жиі қойылатын сұрақтар", "faq_text": "Мұнда AYMI өнімдері, жеткізу және ынтымақтастық шарттары туралы ең жиі қойылатын сұрақтарға жауаптар бар.", "q1": "AYMI төсемдері қауіпсіз бе?", "a1": "Иә. AYMI өнімдері заманауи фабрикада сапа стандарттарын сақтай отырып өндіріледі. Негізгі құжаттар мен зертханалық нәтижелер «Құжаттар» бөлімінде қолжетімді.", "q2": "AYMI кімдермен ынтымақтасады?", "a2": "Біз дистрибьюторлармен, көтерме компаниялармен, сауда және дәріхана желілерімен, маркетплейстермен және өңірлік серіктестермен жұмыс істейміз.", "q3": "Басқа елдерге жеткізу мүмкін бе?", "a3": "Иә. Біз шетелдік серіктестермен ынтымақтастыққа ашықпыз және экспорттық жеткізілімдерді талқылауға дайынбыз.", "q4": "AYMI қандай құжаттар ұсынады?", "a4": "Сұраныс бойынша сәйкестік сертификаттары, тіркеу құжаттары және зертханалық сынақ нәтижелері беріледі.", "q5": "AYMI серіктесі қалай болуға болады?", "a5": "WhatsApp, Telegram немесе сайттағы кері байланыс формасы арқылы бізге хабарласыңыз. Біз ынтымақтастық шарттары мен көтерме жеткізілімдер туралы ақпарат береміз.", "contact_title": "AYMI байланыстары", "contact_text": "Өнімге тапсырыс беру, бағасын білу немесе көтерме серіктестікті талқылау үшін өтінім қалдырыңыз.", "name_ph": "Атыңыз", "phone_ph": "Телефон", "msg_ph": "Хабарламаңыз", "form_btn": "Өтінім жіберу", "form_status": "Өтінімді жіберу үшін WhatsApp ашылады.", "whatsapp_message": "Сәлеметсіз бе! AYMI сайтынан жаңа өтінім:", "footer": "© 2026. Күн сайын табиғи жайлылық."});
+Object.assign(window.aymiTranslations.uz, {"menu_home": "Bosh sahifa", "menu_about": "Brend haqida", "menu_catalog": "Katalog", "menu_wholesale": "Ulgurji", "menu_contact": "Aloqa", "menu_docs": "Hujjatlar", "btn_order": "Buyurtma berish", "hero_badge": "Ayollar gigiyenasi uchun eko brend", "hero_title": "AYMI — yangi avlod tabiiy eko gigiyenik prokladkalari", "hero_text": "AYMI — zamonaviy materiallar, yumshoqlik va qulaylikni birlashtirgan ayollar gigiyenasi brendi. Kunduzgi va tungi prokladkalar kun va tun davomida ishonchli himoya uchun ishlab chiqilgan.", "hero_btn1": "Ariza qoldirish", "hero_btn2": "Hamkorlar uchun", "float_eco": "Eko qulaylik", "float_fresh": "24/7 yangilik hissi", "trust_title": "Nega AYMI tanlanadi", "trust_text": "AYMI — bu shunchaki gigiyenik prokladka emas, balki kundalik qulaylik, ishonch va g‘amxo‘rlik uchun yaratilgan zamonaviy eko brend.", "t1": "Yumshoq paxta qatlami", "t1d": "Teri bilan nozik aloqa qiladi va kundalik foydalanishda qulaylik beradi.", "t2": "Nafas oluvchi tuzilma", "t2d": "Havo aylanishiga yordam beradi va yangilik hissini saqlashga ko‘maklashadi.", "t3": "Ishonchli himoya", "t3d": "Zamonaviy shimuvchi tuzilma kun davomida qulaylik va ishonchni saqlashga yordam beradi.", "t4": "Tea Polyphenol", "t4d": "Choy polifenollari asosidagi komponent AYMI mahsulotlari tuzilmasida qo‘llanadi.", "t5": "Anion Technology", "t5d": "Qo‘shimcha qulaylik uchun mahsulot tarkibida qo‘llaniladigan zamonaviy texnologiya.", "t6": "Nano Silver", "t6d": "Nano kumush zamonaviy ko‘p qatlamli tuzilmaning komponentlaridan biri sifatida qo‘llanadi.", "about_title": "AYMI brendi haqida", "about1": "AYMI — xavfsizlik, yumshoqlik, qulaylik va mahsulotning chiroyli taqdimotiga e’tibor qaratadigan tabiiy eko gigiyenik prokladkalar brendi.", "about2": "Maqsadimiz — xaridorlar, do‘konlar, dorixonalar va ulgurji hamkorlar ishonadigan taniqli brend yaratish.", "s1": "Eco", "s1d": "tabiiylikka yo‘nalish", "s2": "24/7", "s2d": "har kuni qulaylik", "s3": "B2B", "s3d": "ulgurji rivojlanish", "s4": "Brand", "s4d": "o‘sishga tayyor brend", "catalog_label": "Katalog", "catalog_title": "AYMI mahsulotlari", "catalog_text": "Biz katalog asosini yaratmoqdamiz. Keyinchalik turli liniyalar, o‘lchamlar, narxlar va mahsulot kartalari qo‘shiladi.", "c1": "Gigiyenik prokladkalar", "c1d": "AYMI ayollar gigiyenik prokladkalarining asosiy liniyasi.", "cnew": "Yangiliklar", "copen": "Katalogni ochish", "c2": "Kundalik prokladkalar", "c2d": "Kundalik qulaylik va yangilik hissi.", "c3": "Nam va quruq salfetkalar", "c3d": "Kundalik parvarish va gigiyena uchun.", "soon": "Tez orada qo‘shiladi", "benefits_title": "AYMI bilan ishlash nega foydali", "b1": "Uzoq muddatli hamkorlik", "b1d": "Biz barqaror hamkorlik munosabatlari va o‘zaro foydali rivojlanishni qurishga qiziqamiz.", "b2": "Sertifikatlar va hujjatlar", "b2d": "Barcha zarur hujjatlar va laboratoriya tekshiruvlari natijalari tanishish uchun mavjud.", "b3": "Ulgurji yetkazib berish", "b3d": "AYMI brendini rivojlantirishga qiziqqan ulgurji xaridorlar, distribyutorlar va hamkorlar bilan ishlaymiz.", "b4": "Qulay qadoqlash", "b4d": "Har bir qutida 10 dona alohida qadoqlangan mahsulot mavjud, bu saqlash, tashish va sotishni qulay qiladi. Mahsulot brend qadoqlarida sotishga tayyor.", "b5": "Tez aloqa", "b5d": "Xaridorlar va hamkorlar sayt orqali tezda ariza qoldirishlari mumkin.", "b6": "Yetkazib berishni rivojlantirish", "b6d": "Hamkorlik geografiyasini bosqichma-bosqich kengaytiryapmiz va yangi hududlar hamda mamlakatlar bilan ishlashga ochiqmiz.", "wholesale_title": "Ulgurji hamkorlik", "wholesale_text": "AYMI ulgurji kompaniyalar, distribyutorlar, savdo tarmoqlari, marketplace va hududiy hamkorlarni hamkorlikka taklif qiladi. Qirg‘iziston, MDH davlatlari va boshqa hududlarga yetkazib berishga ochiqmiz.", "wholesale_btn": "Hamkor bo‘lish", "p1": "Distribyutorlar", "p2": "Savdo tarmoqlari", "p3": "Dorixona tarmoqlari", "p4": "Distribyutorlar", "p5": "Marketplace", "p6": "Ulgurji yetkazib berish", "p7": "Hududiy vakillar", "faq_title": "Ko‘p beriladigan savollar", "faq_text": "Bu yerda AYMI mahsulotlari, yetkazib berish va hamkorlik shartlari bo‘yicha eng ko‘p beriladigan savollarga javoblar bor.", "q1": "AYMI prokladkalari xavfsizmi?", "a1": "Ha. AYMI mahsulotlari zamonaviy fabrikada sifat standartlariga rioya qilingan holda ishlab chiqariladi. Asosiy hujjatlar va laboratoriya natijalari «Hujjatlar» bo‘limida mavjud.", "q2": "AYMI kimlar bilan hamkorlik qiladi?", "a2": "Biz distribyutorlar, ulgurji kompaniyalar, savdo va dorixona tarmoqlari, marketplace hamda hududiy hamkorlar bilan ishlaymiz.", "q3": "Boshqa mamlakatlarga yetkazib berish mumkinmi?", "a3": "Ha. Biz xorijiy hamkorlar bilan ishlashga ochiqmiz va eksport yetkazib berishlarni muhokama qilishga tayyormiz.", "q4": "AYMI qanday hujjatlarni taqdim etadi?", "a4": "So‘rov bo‘yicha muvofiqlik sertifikatlari, ro‘yxatdan o‘tish hujjatlari va laboratoriya tekshiruvlari natijalari taqdim etiladi.", "q5": "AYMI hamkori qanday bo‘lish mumkin?", "a5": "WhatsApp, Telegram yoki saytdagi aloqa formasi orqali biz bilan bog‘laning. Hamkorlik shartlari va ulgurji yetkazib berishlar haqida ma’lumot beramiz.", "contact_title": "AYMI kontaktlari", "contact_text": "Mahsulotga buyurtma berish, narxni bilish yoki ulgurji hamkorlikni muhokama qilish uchun ariza qoldiring.", "name_ph": "Ismingiz", "phone_ph": "Telefon", "msg_ph": "Xabaringiz", "form_btn": "Ariza yuborish", "form_status": "Arizani yuborish uchun WhatsApp ochiladi.", "whatsapp_message": "Assalomu alaykum! AYMI saytidan yangi ariza:", "footer": "© 2026. Har kuni tabiiy qulaylik."});
+Object.assign(window.aymiTranslations.tr, {"menu_home": "Ana sayfa", "menu_about": "Marka hakkında", "menu_catalog": "Katalog", "menu_wholesale": "Toptan", "menu_contact": "İletişim", "menu_docs": "Belgeler", "btn_order": "Sipariş ver", "hero_badge": "Kadın hijyeni için eko marka", "hero_title": "AYMI — yeni nesil doğal eko hijyenik pedler", "hero_text": "AYMI, modern malzemeleri, yumuşaklığı ve konforu bir araya getiren bir kadın hijyeni markasıdır. Gündüz ve gece pedleri gün ve gece boyunca güvenilir koruma için tasarlanmıştır.", "hero_btn1": "Talep gönder", "hero_btn2": "Ortaklar için", "float_eco": "Eko konfor", "float_fresh": "7/24 ferahlık", "trust_title": "Neden AYMI seçilir", "trust_text": "AYMI sadece hijyenik ped değil, günlük konfor, güven ve bakım için oluşturulmuş modern bir eko markadır.", "t1": "Yumuşak pamuk katmanı", "t1d": "Cilde nazikçe temas eder ve günlük kullanımda konfor sağlar.", "t2": "Nefes alabilir yapı", "t2d": "Hava dolaşımını destekler ve ferahlık hissinin korunmasına yardımcı olur.", "t3": "Güvenilir koruma", "t3d": "Modern emici yapı gün boyunca konfor ve güven hissini korumaya yardımcı olur.", "t4": "Tea Polyphenol", "t4d": "Çay polifenolleri bazlı bileşen AYMI ürün yapısında kullanılır.", "t5": "Anion Technology", "t5d": "Ek konfor için ürün yapısında kullanılan modern teknoloji.", "t6": "Nano Silver", "t6d": "Nano gümüş, modern çok katmanlı yapının bileşenlerinden biri olarak kullanılır.", "about_title": "AYMI hakkında", "about1": "AYMI; güvenlik, yumuşaklık, konfor ve ürünün şık sunumuna odaklanan doğal eko hijyenik ped markasıdır.", "about2": "Hedefimiz müşteriler, mağazalar, eczaneler ve toptan iş ortakları tarafından güvenilen tanınan bir marka oluşturmaktır.", "s1": "Eco", "s1d": "doğallığa odaklanma", "s2": "24/7", "s2d": "her gün konfor", "s3": "B2B", "s3d": "toptan gelişim", "s4": "Brand", "s4d": "büyümeye hazır marka", "catalog_label": "Katalog", "catalog_title": "AYMI ürünleri", "catalog_text": "Kataloğun temelini oluşturuyoruz. Daha sonra farklı seriler, ölçüler, fiyatlar ve ürün kartları eklenecektir.", "c1": "Hijyenik pedler", "c1d": "AYMI kadın hijyenik pedlerinin ana ürün serisi.", "cnew": "Yeni ürünler", "copen": "Kataloğu aç", "c2": "Günlük pedler", "c2d": "Günlük konfor ve ferahlık.", "c3": "Islak ve kuru mendiller", "c3d": "Günlük bakım ve hijyen için.", "soon": "Yakında eklenecek", "benefits_title": "AYMI ile çalışmak neden avantajlı", "b1": "Uzun vadeli iş birliği", "b1d": "İstikrarlı ortaklık ilişkileri ve karşılıklı fayda sağlayan gelişim kurmakla ilgileniyoruz.", "b2": "Sertifikalar ve belgeler", "b2d": "Gerekli tüm belgeler ve laboratuvar test sonuçları incelemeye açıktır.", "b3": "Toptan tedarik", "b3d": "AYMI markasını geliştirmek isteyen toptan alıcılar, distribütörler ve iş ortaklarıyla çalışıyoruz.", "b4": "Kullanışlı ambalaj", "b4d": "Her kutuda 10 ayrı paketlenmiş ürün bulunur; bu da depolama, taşıma ve satışı kolaylaştırır. Ürünler markalı ambalajda satışa hazırdır.", "b5": "Hızlı iletişim", "b5d": "Müşteriler ve iş ortakları web sitesi üzerinden hızlıca talep gönderebilir.", "b6": "Tedarik geliştirme", "b6d": "İş birliği coğrafyamızı kademeli olarak genişletiyoruz ve yeni bölge ve ülkelere açığız.", "wholesale_title": "Toptan iş birliği", "wholesale_text": "AYMI; toptan şirketleri, distribütörleri, perakende zincirlerini, pazaryerlerini ve bölgesel ortakları iş birliğine davet eder. Kırgızistan, BDT ülkeleri ve diğer bölgelere tedarik için açığız.", "wholesale_btn": "Ortak ol", "p1": "Distribütörler", "p2": "Perakende zincirleri", "p3": "Eczane zincirleri", "p4": "Distribütörler", "p5": "Pazaryerleri", "p6": "Toptan tedarik", "p7": "Bölgesel temsilciler", "faq_title": "Sık sorulan sorular", "faq_text": "Burada AYMI ürünleri, tedarik ve iş birliği koşulları hakkında en sık sorulan soruların yanıtları yer alır.", "q1": "AYMI pedleri güvenli mi?", "a1": "Evet. AYMI ürünleri modern fabrikada kalite standartlarına uygun şekilde üretilir. Ana belgeler ve laboratuvar sonuçları Belgeler bölümünde mevcuttur.", "q2": "AYMI kimlerle çalışır?", "a2": "Distribütörler, toptan şirketler, perakende ve eczane zincirleri, pazaryerleri ve bölgesel ortaklarla çalışıyoruz.", "q3": "Diğer ülkelere tedarik mümkün mü?", "a3": "Evet. Yabancı ortaklarla iş birliğine açığız ve ihracat tedariklerini görüşmeye hazırız.", "q4": "AYMI hangi belgeleri sağlar?", "a4": "Talep üzerine uygunluk sertifikaları, kayıt belgeleri ve laboratuvar test sonuçları sağlanır.", "q5": "AYMI ortağı nasıl olunur?", "a5": "WhatsApp, Telegram veya web sitesindeki iletişim formu üzerinden bizimle iletişime geçin. İş birliği koşulları ve toptan tedarik hakkında bilgi veririz.", "contact_title": "AYMI iletişim", "contact_text": "Ürün siparişi vermek, fiyat öğrenmek veya toptan iş birliğini görüşmek için talep bırakın.", "name_ph": "Adınız", "phone_ph": "Telefon", "msg_ph": "Mesajınız", "form_btn": "Talep gönder", "form_status": "Talebi göndermek için WhatsApp açılacaktır.", "whatsapp_message": "Merhaba! AYMI web sitesinden yeni talep:", "footer": "© 2026. Her gün doğal konfor."});
+Object.assign(window.aymiTranslations.ar, {"menu_home": "الرئيسية", "menu_about": "عن العلامة", "menu_catalog": "المنتجات", "menu_wholesale": "الجملة", "menu_contact": "التواصل", "menu_docs": "الوثائق", "btn_order": "اطلب الآن", "hero_badge": "علامة صديقة للبيئة للعناية النسائية", "hero_title": "AYMI — فوط صحية طبيعية صديقة للبيئة من الجيل الجديد", "hero_text": "AYMI علامة للعناية النسائية تجمع بين المواد الحديثة والنعومة والراحة. صُممت الفوط النهارية والليلية لتوفير حماية موثوقة وثقة طوال اليوم والليل.", "hero_btn1": "إرسال طلب", "hero_btn2": "للشركاء", "float_eco": "راحة صديقة للبيئة", "float_fresh": "انتعاش 24/7", "trust_title": "لماذا تختارين AYMI", "trust_text": "AYMI ليست مجرد فوط صحية، بل علامة حديثة صديقة للبيئة صُممت للراحة والثقة والعناية اليومية.", "t1": "طبقة قطنية ناعمة", "t1d": "تلامس البشرة بلطف وتوفر راحة للاستخدام اليومي.", "t2": "تركيبة قابلة للتنفس", "t2d": "تساعد على دوران الهواء والحفاظ على الشعور بالانتعاش.", "t3": "حماية موثوقة", "t3d": "تساعد البنية الماصة الحديثة على الحفاظ على الراحة والثقة طوال اليوم.", "t4": "Tea Polyphenol", "t4d": "يُستخدم مكون قائم على بوليفينولات الشاي في بنية منتجات AYMI.", "t5": "Anion Technology", "t5d": "تقنية حديثة تُستخدم في بنية المنتج لمزيد من الراحة.", "t6": "Nano Silver", "t6d": "تُستخدم الفضة النانوية كأحد مكونات البنية الحديثة متعددة الطبقات.", "about_title": "عن AYMI", "about1": "AYMI علامة حديثة للفوط الصحية الطبيعية الصديقة للبيئة تركز على السلامة والنعومة والراحة وتقديم المنتج بشكل مميز.", "about2": "هدفنا هو بناء علامة معروفة يثق بها العملاء والمتاجر والصيدليات وشركاء الجملة.", "s1": "Eco", "s1d": "تركيز على العناية الطبيعية", "s2": "24/7", "s2d": "راحة طوال اليوم", "s3": "B2B", "s3d": "تطوير الجملة", "s4": "Brand", "s4d": "علامة جاهزة للنمو", "catalog_label": "الكتالوج", "catalog_title": "منتجات AYMI", "catalog_text": "نحن نضع أساس الكتالوج. سيتم لاحقًا إضافة خطوط ومنتجات ومقاسات وأسعار وبطاقات منتجات.", "c1": "فوط صحية", "c1d": "الخط الأساسي لفوط العناية النسائية AYMI.", "cnew": "منتجات جديدة", "copen": "فتح الكتالوج", "c2": "فوط يومية", "c2d": "راحة وانتعاش يوميان.", "c3": "مناديل مبللة وجافة", "c3d": "للعناية والنظافة اليومية.", "soon": "سيتم الإضافة قريبًا", "benefits_title": "لماذا التعاون مع AYMI مربح", "b1": "تعاون طويل الأمد", "b1d": "نحن مهتمون ببناء علاقات شراكة مستقرة وتطور متبادل المنفعة.", "b2": "الشهادات والوثائق", "b2d": "جميع الوثائق المطلوبة ونتائج الاختبارات المخبرية متاحة للاطلاع.", "b3": "توريدات بالجملة", "b3d": "نعمل مع المشترين بالجملة والموزعين والشركاء المهتمين بتطوير علامة AYMI.", "b4": "تغليف مريح", "b4d": "تحتوي كل علبة على 10 قطع مغلفة بشكل فردي، مما يجعل التخزين والنقل والبيع أكثر سهولة. المنتجات جاهزة للبيع بتغليف يحمل العلامة.", "b5": "تواصل سريع", "b5d": "يمكن للعملاء والشركاء إرسال طلب بسرعة عبر الموقع.", "b6": "تطوير التوريد", "b6d": "نوسع تدريجيًا نطاق التعاون ونرحب بالعمل مع مناطق ودول جديدة.", "wholesale_title": "تعاون الجملة", "wholesale_text": "تدعو AYMI شركات الجملة والموزعين وسلاسل البيع والمنصات الإلكترونية والشركاء الإقليميين إلى التعاون. نحن منفتحون على التوريد إلى قرغيزستان ودول رابطة الدول المستقلة ومناطق أخرى.", "wholesale_btn": "كن شريكًا", "p1": "الموزعون", "p2": "سلاسل البيع", "p3": "سلاسل الصيدليات", "p4": "الموزعون", "p5": "المنصات الإلكترونية", "p6": "توريدات الجملة", "p7": "ممثلون إقليميون", "faq_title": "الأسئلة الشائعة", "faq_text": "هنا تجدون إجابات عن أكثر الأسئلة شيوعًا حول منتجات AYMI والتوريد وشروط التعاون.", "q1": "هل فوط AYMI آمنة؟", "a1": "نعم. تُنتج منتجات AYMI في مصنع حديث وفق معايير الجودة. الوثائق الرئيسية ونتائج المختبر متاحة في قسم الوثائق.", "q2": "مع من تتعاون AYMI؟", "a2": "نتعاون مع الموزعين وشركات الجملة وسلاسل البيع والصيدليات والمنصات الإلكترونية والشركاء الإقليميين.", "q3": "هل يمكن التوريد إلى دول أخرى؟", "a3": "نعم. نحن منفتحون على التعاون مع شركاء من الخارج ومستعدون لمناقشة التوريدات التصديرية.", "q4": "ما الوثائق التي توفرها AYMI؟", "a4": "عند الطلب، نوفر شهادات المطابقة ووثائق التسجيل ونتائج الاختبارات المخبرية.", "q5": "كيف أصبح شريكًا لـ AYMI؟", "a5": "تواصل معنا عبر WhatsApp أو Telegram أو نموذج الاتصال في الموقع. سنقدم معلومات حول شروط التعاون والتوريد بالجملة.", "contact_title": "تواصل AYMI", "contact_text": "اترك طلبًا إذا كنت ترغب في طلب المنتجات أو معرفة السعر أو مناقشة الجملة والشراكة.", "name_ph": "اسمك", "phone_ph": "الهاتف", "msg_ph": "رسالتك", "form_btn": "إرسال الطلب", "form_status": "سيتم فتح WhatsApp لإرسال الطلب.", "whatsapp_message": "مرحبًا! طلب جديد من موقع AYMI:", "footer": "© 2026. راحة طبيعية كل يوم."});
+
+const selectorMap = [
+  ["menu_home",'a[href="#home"][data-key]'], ["menu_about",'a[href="#about"][data-key]'], ["menu_catalog",'a[href="#catalog"][data-key]'], ["menu_wholesale",'a[href="#wholesale"][data-key]'], ["menu_contact",'a[href="#contact"][data-key]'], ["menu_docs",'a[href="documents.html"][data-key]'], ["btn_order",'header .btn-light'],
+  ["hero_badge",".hero .badge"], ["hero_title",".hero h1"], ["hero_text",".hero p"], ["hero_btn1",".hero-actions .btn-primary"], ["hero_btn2",".hero-actions .btn-outline"], ["float_eco",".float-1 span"], ["float_fresh",".float-2 span"],
+  ["trust_title","#trust .section-title h2"], ["trust_text","#trust .section-title p"],
+  ["t1","#trust .card:nth-child(1) h3"], ["t1d","#trust .card:nth-child(1) p"], ["t2","#trust .card:nth-child(2) h3"], ["t2d","#trust .card:nth-child(2) p"], ["t3","#trust .card:nth-child(3) h3"], ["t3d","#trust .card:nth-child(3) p"], ["t4","#trust .card:nth-child(4) h3"], ["t4d","#trust .card:nth-child(4) p"], ["t5","#trust .card:nth-child(5) h3"], ["t5d","#trust .card:nth-child(5) p"], ["t6","#trust .card:nth-child(6) h3"], ["t6d","#trust .card:nth-child(6) p"],
+  ["about_title","#about h2"], ["about1","#about .about-text p:nth-of-type(1)"], ["about2","#about .about-text p:nth-of-type(2)"], ["s1","#about .stat:nth-child(1) strong"], ["s1d","#about .stat:nth-child(1) span"], ["s2","#about .stat:nth-child(2) strong"], ["s2d","#about .stat:nth-child(2) span"], ["s3","#about .stat:nth-child(3) strong"], ["s3d","#about .stat:nth-child(3) span"], ["s4","#about .stat:nth-child(4) strong"], ["s4d","#about .stat:nth-child(4) span"],
+  ["catalog_label","#catalog .section-title span"], ["catalog_title","#catalog .section-title h2"], ["catalog_text","#catalog .section-title p"], ["c1","#catalog .card:nth-child(1) h3"], ["c1d","#catalog .card:nth-child(1) p"], ["cnew","#catalog .card:nth-child(1) .price"], ["copen","#catalog .card:nth-child(1) .btn"], ["c2","#catalog .card:nth-child(2) h3"], ["c2d","#catalog .card:nth-child(2) p"], ["c3","#catalog .card:nth-child(3) h3"], ["c3d","#catalog .card:nth-child(3) p"],
+  ["benefits_title","#benefits .section-title h2"], ["b1","#benefits .card:nth-child(1) h3"], ["b1d","#benefits .card:nth-child(1) p"], ["b2","#benefits .card:nth-child(2) h3"], ["b2d","#benefits .card:nth-child(2) p"], ["b3","#benefits .card:nth-child(3) h3"], ["b3d","#benefits .card:nth-child(3) p"], ["b4","#benefits .card:nth-child(4) h3"], ["b4d","#benefits .card:nth-child(4) p"], ["b5","#benefits .card:nth-child(5) h3"], ["b5d","#benefits .card:nth-child(5) p"], ["b6","#benefits .card:nth-child(6) h3"], ["b6d","#benefits .card:nth-child(6) p"],
+  ["wholesale_title","#wholesale h2"], ["wholesale_text","#wholesale p"], ["wholesale_btn","#wholesale .btn"], ["p1","#wholesale .partners span:nth-child(1)"], ["p2","#wholesale .partners span:nth-child(2)"], ["p3","#wholesale .partners span:nth-child(3)"], ["p4","#wholesale .partners span:nth-child(4)"], ["p5","#wholesale .partners span:nth-child(5)"], ["p6","#wholesale .partners span:nth-child(6)"], ["p7","#wholesale .partners span:nth-child(7)"],
+  ["faq_title","#faq h2"], ["faq_text","#faq div[style*='text-align:center'] p"], ["q1","#faq .aymi-faq-item:nth-of-type(1) .aymi-faq-question"], ["a1","#faq .aymi-faq-item:nth-of-type(1) .aymi-faq-answer"], ["q2","#faq .aymi-faq-item:nth-of-type(2) .aymi-faq-question"], ["a2","#faq .aymi-faq-item:nth-of-type(2) .aymi-faq-answer"], ["q3","#faq .aymi-faq-item:nth-of-type(3) .aymi-faq-question"], ["a3","#faq .aymi-faq-item:nth-of-type(3) .aymi-faq-answer"], ["q4","#faq .aymi-faq-item:nth-of-type(4) .aymi-faq-question"], ["a4","#faq .aymi-faq-item:nth-of-type(4) .aymi-faq-answer"], ["q5","#faq .aymi-faq-item:nth-of-type(5) .aymi-faq-question"], ["a5","#faq .aymi-faq-item:nth-of-type(5) .aymi-faq-answer"],
+  ["contact_title","#contact h2"], ["contact_text","#contact .contact-info p"], ["form_btn","#contactForm button"], ["footer","footer span"]
+];
+
+const labels = { ru:"🌐 RU", en:"🌐 EN", kg:"🌐 KG", kz:"🌐 KZ", uz:"🌐 UZ", tr:"🌐 TR", ar:"🌐 AR" };
+
+function setNodeText(selector, value){
+  const el = document.querySelector(selector);
+  if(!el || value === undefined) return;
+  if(el.classList.contains("aymi-faq-question")){
+    const plus = el.querySelector("span");
+    el.textContent = value + " ";
+    if(plus) el.appendChild(plus);
+  } else {
+    el.textContent = value;
+  }
+}
+
+function setLang(lang){
+  const dict = window.aymiTranslations[lang] || window.aymiTranslations.ru;
+
+  selectorMap.forEach(([key, selector]) => setNodeText(selector, dict[key]));
+
+  document.querySelectorAll("#catalog .doc-btn").forEach(el => {
+    if(el.textContent.trim() !== "-") el.textContent = dict.soon || "Скоро будет добавлено";
+  });
+
+  const name = document.getElementById("name");
+  const phone = document.getElementById("phone");
+  const message = document.getElementById("message");
+  if(name) name.placeholder = dict.name_ph || dict.form_name || "Ваше имя";
+  if(phone) phone.placeholder = dict.phone_ph || dict.form_phone || "Телефон";
+  if(message) message.placeholder = dict.msg_ph || dict.form_message || "Ваше сообщение";
+
+  document.getElementById("languageBtn").textContent = labels[lang] || "🌐 RU";
+  document.getElementById("languageMenu").classList.remove("show");
+  localStorage.setItem("aymiLang", lang);
+  document.body.dir = lang === "ar" ? "rtl" : "ltr";
+}
+
+window.addEventListener("load", () => setLang(localStorage.getItem("aymiLang") || "ru"));
+</script>
+</body>
+</html>
