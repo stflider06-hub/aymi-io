@@ -703,6 +703,99 @@
   color:#2563eb;
 }
 
+.mobile-menu-btn{
+  display:none;
+  border:none;
+  background:#fff;
+  color:#1f2937;
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  font-size:24px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.mobile-menu{
+  position:fixed;
+  top:0;
+  right:-280px;
+  width:260px;
+  height:100vh;
+  background:#fff;
+  z-index:99999;
+  padding:70px 22px 22px;
+  box-shadow:-18px 0 45px rgba(0,0,0,.18);
+  transition:.35s ease;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.mobile-menu.show{
+  right:0;
+}
+
+.mobile-menu a{
+  text-decoration:none;
+  color:#1f2937;
+  font-size:18px;
+  font-weight:900;
+  padding:14px 16px;
+  border-radius:16px;
+  background:#f3f8f7;
+}
+
+.mobile-menu a:hover{
+  background:linear-gradient(90deg,#58a6ff,#5fc7a1);
+  color:#fff;
+}
+
+.mobile-close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  border:none;
+  background:linear-gradient(90deg,#58a6ff,#5fc7a1);
+  color:#fff;
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.mobile-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:99998;
+}
+
+.mobile-overlay.show{
+  display:block;
+}
+
+@media(max-width:900px){
+  .menu{
+    display:none;
+  }
+
+  .mobile-menu-btn{
+    display:block;
+  }
+
+  .btn-light{
+    padding:14px 20px;
+    border-radius:18px;
+  }
+
+  .nav{
+    gap:12px;
+  }
+}
   </style>
 </head>
 
@@ -736,8 +829,22 @@
   </div>
 </div>
     <a href="#contact" class="btn btn-light">Заказать</a>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
   </div>
 </header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMobileMenu()">×</button>
+
+  <a href="#home" data-key="menu_home" onclick="toggleMobileMenu()">Главная</a>
+  <a href="#about" data-key="menu_about" onclick="toggleMobileMenu()">О бренде</a>
+  <a href="#catalog" data-key="menu_catalog" onclick="toggleMobileMenu()">Каталог</a>
+  <a href="#wholesale" data-key="menu_wholesale" onclick="toggleMobileMenu()">Оптовикам</a>
+  <a href="#contact" data-key="menu_contact" onclick="toggleMobileMenu()">Контакты</a>
+  <a href="documents.html" data-key="menu_docs">Документы</a>
+</div>
+
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
 
 <main>
 
@@ -1343,7 +1450,12 @@ Object.assign(window.aymiTranslations.tr, {"menu_home": "Ana sayfa", "menu_about
 Object.assign(window.aymiTranslations.ar, {"menu_home": "الرئيسية", "menu_about": "عن العلامة", "menu_catalog": "المنتجات", "menu_wholesale": "الجملة", "menu_contact": "التواصل", "menu_docs": "الوثائق", "btn_order": "اطلب الآن", "hero_badge": "علامة صديقة للبيئة للعناية النسائية", "hero_title": "AYMI — فوط صحية طبيعية صديقة للبيئة من الجيل الجديد", "hero_text": "AYMI علامة للعناية النسائية تجمع بين المواد الحديثة والنعومة والراحة. صُممت الفوط النهارية والليلية لتوفير حماية موثوقة وثقة طوال اليوم والليل.", "hero_btn1": "إرسال طلب", "hero_btn2": "للشركاء", "float_eco": "راحة صديقة للبيئة", "float_fresh": "انتعاش 24/7", "trust_title": "لماذا تختارين AYMI", "trust_text": "AYMI ليست مجرد فوط صحية، بل علامة حديثة صديقة للبيئة صُممت للراحة والثقة والعناية اليومية.", "t1": "طبقة قطنية ناعمة", "t1d": "تلامس البشرة بلطف وتوفر راحة للاستخدام اليومي.", "t2": "تركيبة قابلة للتنفس", "t2d": "تساعد على دوران الهواء والحفاظ على الشعور بالانتعاش.", "t3": "حماية موثوقة", "t3d": "تساعد البنية الماصة الحديثة على الحفاظ على الراحة والثقة طوال اليوم.", "t4": "Tea Polyphenol", "t4d": "يُستخدم مكون قائم على بوليفينولات الشاي في بنية منتجات AYMI.", "t5": "Anion Technology", "t5d": "تقنية حديثة تُستخدم في بنية المنتج لمزيد من الراحة.", "t6": "Nano Silver", "t6d": "تُستخدم الفضة النانوية كأحد مكونات البنية الحديثة متعددة الطبقات.", "about_title": "عن AYMI", "about1": "AYMI علامة حديثة للفوط الصحية الطبيعية الصديقة للبيئة تركز على السلامة والنعومة والراحة وتقديم المنتج بشكل مميز.", "about2": "هدفنا هو بناء علامة معروفة يثق بها العملاء والمتاجر والصيدليات وشركاء الجملة.", "s1": "Eco", "s1d": "تركيز على العناية الطبيعية", "s2": "24/7", "s2d": "راحة طوال اليوم", "s3": "B2B", "s3d": "تطوير الجملة", "s4": "Brand", "s4d": "علامة جاهزة للنمو", "catalog_label": "الكتالوج", "catalog_title": "منتجات AYMI", "catalog_text": "نحن نضع أساس الكتالوج. سيتم لاحقًا إضافة خطوط ومنتجات ومقاسات وأسعار وبطاقات منتجات.", "c1": "فوط صحية", "c1d": "الخط الأساسي لفوط العناية النسائية AYMI.", "cnew": "منتجات جديدة", "copen": "فتح الكتالوج", "c2": "فوط يومية", "c2d": "راحة وانتعاش يوميان.", "c3": "مناديل مبللة وجافة", "c3d": "للعناية والنظافة اليومية.", "soon": "سيتم الإضافة قريبًا", "benefits_title": "لماذا التعاون مع AYMI مربح", "b1": "تعاون طويل الأمد", "b1d": "نحن مهتمون ببناء علاقات شراكة مستقرة وتطور متبادل المنفعة.", "b2": "الشهادات والوثائق", "b2d": "جميع الوثائق المطلوبة ونتائج الاختبارات المخبرية متاحة للاطلاع.", "b3": "توريدات بالجملة", "b3d": "نعمل مع المشترين بالجملة والموزعين والشركاء المهتمين بتطوير علامة AYMI.", "b4": "تغليف مريح", "b4d": "تحتوي كل علبة على 10 قطع مغلفة بشكل فردي، مما يجعل التخزين والنقل والبيع أكثر سهولة. المنتجات جاهزة للبيع بتغليف يحمل العلامة.", "b5": "تواصل سريع", "b5d": "يمكن للعملاء والشركاء إرسال طلب بسرعة عبر الموقع.", "b6": "تطوير التوريد", "b6d": "نوسع تدريجيًا نطاق التعاون ونرحب بالعمل مع مناطق ودول جديدة.", "wholesale_title": "تعاون الجملة", "wholesale_text": "تدعو AYMI شركات الجملة والموزعين وسلاسل البيع والمنصات الإلكترونية والشركاء الإقليميين إلى التعاون. نحن منفتحون على التوريد إلى قرغيزستان ودول رابطة الدول المستقلة ومناطق أخرى.", "wholesale_btn": "كن شريكًا", "p1": "الموزعون", "p2": "سلاسل البيع", "p3": "سلاسل الصيدليات", "p4": "الموزعون", "p5": "المنصات الإلكترونية", "p6": "توريدات الجملة", "p7": "ممثلون إقليميون", "faq_title": "الأسئلة الشائعة", "faq_text": "هنا تجدون إجابات عن أكثر الأسئلة شيوعًا حول منتجات AYMI والتوريد وشروط التعاون.", "q1": "هل فوط AYMI آمنة؟", "a1": "نعم. تُنتج منتجات AYMI في مصنع حديث وفق معايير الجودة. الوثائق الرئيسية ونتائج المختبر متاحة في قسم الوثائق.", "q2": "مع من تتعاون AYMI؟", "a2": "نتعاون مع الموزعين وشركات الجملة وسلاسل البيع والصيدليات والمنصات الإلكترونية والشركاء الإقليميين.", "q3": "هل يمكن التوريد إلى دول أخرى؟", "a3": "نعم. نحن منفتحون على التعاون مع شركاء من الخارج ومستعدون لمناقشة التوريدات التصديرية.", "q4": "ما الوثائق التي توفرها AYMI؟", "a4": "عند الطلب، نوفر شهادات المطابقة ووثائق التسجيل ونتائج الاختبارات المخبرية.", "q5": "كيف أصبح شريكًا لـ AYMI؟", "a5": "تواصل معنا عبر WhatsApp أو Telegram أو نموذج الاتصال في الموقع. سنقدم معلومات حول شروط التعاون والتوريد بالجملة.", "contact_title": "تواصل AYMI", "contact_text": "اترك طلبًا إذا كنت ترغب في طلب المنتجات أو معرفة السعر أو مناقشة الجملة والشراكة.", "name_ph": "اسمك", "phone_ph": "الهاتف", "msg_ph": "رسالتك", "form_btn": "إرسال الطلب", "form_status": "سيتم فتح WhatsApp لإرسال الطلب.", "whatsapp_message": "مرحبًا! طلب جديد من موقع AYMI:", "footer": "© 2026. راحة طبيعية كل يوم."});
 
 const selectorMap = [
-  ["menu_home",'a[href="#home"][data-key]'], ["menu_about",'a[href="#about"][data-key]'], ["menu_catalog",'a[href="#catalog"][data-key]'], ["menu_wholesale",'a[href="#wholesale"][data-key]'], ["menu_contact",'a[href="#contact"][data-key]'], ["menu_docs",'a[href="documents.html"][data-key]'], ["btn_order",'header .btn-light'],
+  ["menu_home",'a[data-key="menu_home"]'],
+["menu_about",'a[data-key="menu_about"]'],
+["menu_catalog",'a[data-key="menu_catalog"]'],
+["menu_wholesale",'a[data-key="menu_wholesale"]'],
+["menu_contact",'a[data-key="menu_contact"]'],
+["menu_docs",'a[data-key="menu_docs"]'],
   ["hero_badge",".hero .badge"], ["hero_title",".hero h1"], ["hero_text",".hero p"], ["hero_btn1",".hero-actions .btn-primary"], ["hero_btn2",".hero-actions .btn-outline"], ["float_eco",".float-1 span"], ["float_fresh",".float-2 span"],
   ["trust_title","#trust .section-title h2"], ["trust_text","#trust .section-title p"],
   ["t1","#trust .card:nth-child(1) h3"], ["t1d","#trust .card:nth-child(1) p"], ["t2","#trust .card:nth-child(2) h3"], ["t2d","#trust .card:nth-child(2) p"], ["t3","#trust .card:nth-child(3) h3"], ["t3d","#trust .card:nth-child(3) p"], ["t4","#trust .card:nth-child(4) h3"], ["t4d","#trust .card:nth-child(4) p"], ["t5","#trust .card:nth-child(5) h3"], ["t5d","#trust .card:nth-child(5) p"], ["t6","#trust .card:nth-child(6) h3"], ["t6d","#trust .card:nth-child(6) p"],
@@ -1358,15 +1470,29 @@ const selectorMap = [
 const labels = { ru:"🌐 RU", en:"🌐 EN", kg:"🌐 KG", kz:"🌐 KZ", uz:"🌐 UZ", tr:"🌐 TR", ar:"🌐 AR" };
 
 function setNodeText(selector, value){
-  const el = document.querySelector(selector);
-  if(!el || value === undefined) return;
-  if(el.classList.contains("aymi-faq-question")){
-    const plus = el.querySelector("span");
-    el.textContent = value + " ";
-    if(plus) el.appendChild(plus);
-  } else {
-    el.textContent = value;
-  }
+  if(value === undefined) return;
+
+  document.querySelectorAll(selector).forEach(el=>{
+
+    if(el.classList.contains("aymi-faq-question")){
+      const plus = el.querySelector("span");
+
+      el.childNodes.forEach(node=>{
+        if(node.nodeType===3){
+          node.textContent=value+" ";
+        }
+      });
+
+      if(plus) el.appendChild(plus);
+
+    }else{
+
+      el.textContent=value;
+
+    }
+
+  });
+
 }
 
 function setLang(lang){
@@ -1392,6 +1518,12 @@ function setLang(lang){
 }
 
 window.addEventListener("load", () => setLang(localStorage.getItem("aymiLang") || "ru"));
+</script>
+<script>
+function toggleMobileMenu(){
+  document.getElementById("mobileMenu").classList.toggle("show");
+  document.getElementById("mobileOverlay").classList.toggle("show");
+}
 </script>
 </body>
 </html>
