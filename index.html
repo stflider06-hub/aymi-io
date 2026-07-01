@@ -828,7 +828,7 @@
     <button onclick="setLang('ar')">العربية</button>
   </div>
 </div>
-    <a href="#contact" class="btn btn-light">Заказать</a>
+    <a href="#contact" class="btn btn-light" data-key="btn_order">Заказать</a>
     <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
   </div>
 </header>
@@ -1499,7 +1499,13 @@ function setLang(lang){
   const dict = window.aymiTranslations[lang] || window.aymiTranslations.ru;
 
   selectorMap.forEach(([key, selector]) => setNodeText(selector, dict[key]));
-
+  
+document.querySelectorAll("[data-key]").forEach(el=>{
+  const key = el.getAttribute("data-key");
+  if(dict[key]){
+    el.textContent = dict[key];
+  }
+});
   document.querySelectorAll("#catalog .doc-btn").forEach(el => {
     if(el.textContent.trim() !== "-") el.textContent = dict.soon || "Скоро будет добавлено";
   });
