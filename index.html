@@ -797,6 +797,7 @@
   }
 }
   </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -878,6 +879,33 @@
   </svg>
   Свежесть 24/7
 </div>
+      </div>
+    </div>
+  </section>
+  <section id="quickmenu">
+    <div class="container">
+      <div class="quick-menu-grid">
+        <a href="pads.html" class="menu-btn">
+          <span class="menu-btn__icon"><i class="fa-solid fa-basket-shopping"></i></span>
+          <span class="menu-btn__text">
+            <h3 data-key="btn_order">Заказ берүү</h3>
+            <p>Продукцияны көрүп, себетке кошуп, заказ бериңиз</p>
+          </span>
+        </a>
+        <a href="#about" class="menu-btn">
+          <span class="menu-btn__icon"><i class="fa-solid fa-leaf"></i></span>
+          <span class="menu-btn__text">
+            <h3 data-key="menu_about">О бренде</h3>
+            <p>AYMI тарыхы, баалуулуктары жана командасы</p>
+          </span>
+        </a>
+        <a href="documents.html" class="menu-btn">
+          <span class="menu-btn__icon"><i class="fa-solid fa-file-shield"></i></span>
+          <span class="menu-btn__text">
+            <h3 data-key="menu_docs">Документы</h3>
+            <p>Сертификаттар жана расмий каттоо</p>
+          </span>
+        </a>
       </div>
     </div>
   </section>
@@ -1234,6 +1262,14 @@ AYMI приглашает к сотрудничеству оптовые ком�
   .aymi-faq-item.active .aymi-faq-question span{
     transform:rotate(45deg);
   }
+#quickmenu{ padding:6px 0 18px; }
+.quick-menu-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width:640px){ .quick-menu-grid{ grid-template-columns:repeat(3,1fr); } }
+.menu-btn{ display:flex; align-items:center; gap:16px; background:#fff; border-radius:20px; padding:22px 26px; box-shadow:0 2px 10px rgba(16,42,61,0.07); text-decoration:none; color:inherit; transition:transform 0.2s ease, box-shadow 0.2s ease; }
+.menu-btn:hover{ transform:translateY(-3px); box-shadow:0 8px 20px rgba(16,42,61,0.12); }
+.menu-btn__icon{ width:52px; height:52px; border-radius:50%; background:#F1ECF4; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.3rem; color:#6B4E8E; }
+.menu-btn__text h3{ font-size:1.05rem; margin-bottom:3px; }
+.menu-btn__text p{ font-size:0.85rem; color:#888; margin:0; }
 </style>
 
 <script>
