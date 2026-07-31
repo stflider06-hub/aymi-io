@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AYMI — админка</title>
+<link rel="icon" href="aymi-logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#FAF8FB; --bg-alt:#F1ECF4; --bg-card:#FFFFFF; --ink:#2A2438; --ink-soft:#8B8296; --line:#E9E3EF;
+  --primary:#6B4E8E; --primary-dark:#52396F; --accent:#2E9B85; --primary-soft:#EEE7F5;
+  --green:#2E9E5B; --green-soft:#E7F5EC; --red:#C1121F; --red-soft:#FBEAEA;
+  --shadow-sm: 0 1px 3px rgba(42,36,56,0.07), 0 1px 2px rgba(42,36,56,0.04);
+  --shadow-md: 0 8px 24px rgba(42,36,56,0.1); --shadow-lg: 0 16px 40px rgba(42,36,56,0.16);
+  --radius-sm:14px; --radius-md:18px; --radius-lg:24px;
+  --font-display:'Fraunces',serif; --font-body:'Manrope',sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:var(--font-body); background:var(--bg); color:var(--ink); min-height:100vh; padding-bottom:40px; }
+button{ font-family:inherit; cursor:pointer; }
+h1,h2,h3{ font-family:var(--font-display); font-weight:800; }
+.container{ max-width:880px; margin:0 auto; padding:0 20px; }
+.topbar{ background:var(--bg-card); padding:18px 0; margin-bottom:22px; border-bottom:1px solid var(--line); }
+.topbar .container{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+.topbar-brand{ display:flex; align-items:center; gap:10px; }
+.topbar-mark{ width:38px; height:38px; border-radius:50%; overflow:hidden; }
+.topbar-mark img{ width:100%; height:100%; object-fit:cover; }
+.topbar-title{ font-family:var(--font-display); font-weight:700; font-size:1.05rem; }
+.topbar-sub{ font-size:0.76rem; color:var(--ink-soft); }
+.tabs-row{ display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
+.tab-btn{ padding:10px 18px; border-radius:999px; border:1px solid var(--line); background:var(--bg-card); font-weight:700; font-size:0.85rem; color:var(--ink-soft); }
+.tab-btn.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+.btn{ border:none; border-radius:999px; padding:11px 18px; font-weight:700; font-size:0.85rem; display:inline-flex; align-items:center; gap:8px; }
+.btn-ghost{ background:var(--bg-alt); color:var(--ink); border:1px solid var(--line); }
+.btn-primary{ background:var(--primary); color:#fff; }
+.btn-primary:hover{ background:var(--primary-dark); }
+.toolbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.toolbar h2{ font-size:1.35rem; }
+.count{ color:var(--ink-soft); font-size:0.85rem; font-weight:600; }
+
+/* products */
+.product-row{ background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 16px; margin-bottom:12px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-sm); }
+.product-row-thumb{ width:56px; height:56px; border-radius:12px; background:var(--bg-alt); overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.product-row-thumb img{ width:100%; height:100%; object-fit:cover; }
+.product-row-info{ flex:1; min-width:0; }
+.product-row-name{ font-weight:700; font-size:0.95rem; }
+.product-row-meta{ font-size:0.8rem; color:var(--ink-soft); margin-top:2px; }
+.stock-pill{ font-weight:800; }
+.stock-pill.low{ color:var(--red); }
+.product-row-actions{ display:flex; gap:6px; flex-shrink:0; }
+.icon-btn{ width:34px; height:34px; border-radius:50%; border:1px solid var(--line); background:var(--bg); display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-size:0.8rem; }
+.icon-btn:hover{ background:var(--primary-soft); color:var(--primary-dark); border-color:var(--primary-soft); }
+.icon-btn.danger:hover{ background:var(--red-soft); color:var(--red); border-color:var(--red-soft); }
+
+/* orders */
+.order-card{ background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow-sm); }
+.order-card-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.order-card-id{ font-family:var(--font-display); font-weight:700; font-size:1.05rem; }
+.order-card-time{ font-size:0.76rem; color:var(--ink-soft); margin-top:2px; }
+.order-status-badge{ font-size:0.7rem; font-weight:800; padding:4px 12px; border-radius:999px; }
+.status-new{ background:#FFF4CC; color:#8A6714; }
+.status-processing{ background:var(--primary-soft); color:var(--primary-dark); }
+.status-completed{ background:var(--green-soft); color:var(--green); }
+.status-cancelled{ background:var(--red-soft); color:var(--red); }
+.order-customer{ display:flex; gap:16px; font-size:0.84rem; color:var(--ink-soft); margin-bottom:8px; flex-wrap:wrap; }
+.order-customer span{ display:flex; align-items:center; gap:6px; }
+.delivery-info{ font-size:0.84rem; color:var(--primary-dark); background:var(--primary-soft); border-radius:10px; padding:8px 12px; margin-bottom:10px; }
+.order-comment{ font-size:0.82rem; color:var(--ink-soft); font-style:italic; margin-bottom:10px; }
+.order-items-list{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:10px 0; margin-bottom:10px; }
+.order-items-list div{ display:flex; justify-content:space-between; font-size:0.86rem; padding:3px 0; }
+.order-total-row{ display:flex; justify-content:space-between; font-weight:800; font-size:1rem; margin-bottom:12px; }
+.order-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+.order-action-btn{ border-radius:999px; padding:8px 16px; font-weight:700; font-size:0.8rem; border:none; }
+.order-action-primary{ background:var(--primary); color:#fff; }
+.order-action-danger{ background:var(--red-soft); color:var(--red); }
+.order-action-success{ background:var(--green-soft); color:var(--green); }
+
+/* stats */
+.stats-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; }
+@media (min-width:560px){ .stats-grid{ grid-template-columns:repeat(3,1fr); } }
+.stat-card{ background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:18px; box-shadow:var(--shadow-sm); }
+.stat-card-label{ font-size:0.78rem; color:var(--ink-soft); font-weight:700; margin-bottom:6px; }
+.stat-card-value{ font-family:var(--font-display); font-weight:800; font-size:1.6rem; color:var(--primary-dark); }
+.period-tabs{ display:flex; gap:6px; margin-bottom:18px; }
+.period-tab{ padding:7px 14px; border-radius:999px; border:1px solid var(--line); background:var(--bg-card); font-weight:700; font-size:0.78rem; color:var(--ink-soft); }
+.period-tab.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+
+/* modal */
+.modal-overlay{ position:fixed; inset:0; background:rgba(42,36,56,0.5); display:flex; align-items:center; justify-content:center; z-index:100; padding:20px; opacity:0; pointer-events:none; transition:opacity 0.25s; }
+.modal-overlay.open{ opacity:1; pointer-events:auto; }
+.modal-card{ background:var(--bg-card); border-radius:var(--radius-lg); width:100%; max-width:440px; max-height:90vh; overflow-y:auto; }
+.modal-head{ padding:22px 24px 14px; display:flex; align-items:center; justify-content:space-between; }
+.modal-head h3{ font-size:1.1rem; }
+.modal-close{ width:34px; height:34px; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; border:none; color:var(--ink-soft); }
+.modal-body{ padding:0 24px 26px; }
+.field{ margin-bottom:15px; }
+.field label{ font-size:0.78rem; font-weight:700; color:var(--ink-soft); display:block; margin-bottom:6px; }
+.field input, .field textarea{ width:100%; padding:11px 13px; border-radius:10px; border:1px solid var(--line); background:var(--bg); font-family:inherit; font-size:0.9rem; color:var(--ink); }
+.field input:focus, .field textarea:focus{ outline:2px solid var(--primary); outline-offset:1px; }
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.form-error{ background:var(--red-soft); color:var(--red); border-radius:10px; padding:10px 12px; font-size:0.82rem; margin-bottom:16px; display:none; }
+.form-error.show{ display:block; }
+.modal-actions{ display:flex; gap:10px; margin-top:6px; }
+.btn-cancel{ flex:1; padding:13px; border-radius:var(--radius-sm); border:1px solid var(--line); background:var(--bg); font-weight:700; color:var(--ink); }
+.btn-save{ flex:2; padding:13px; border-radius:var(--radius-sm); border:none; background:var(--primary); color:#fff; font-weight:800; }
+.btn-save:hover{ background:var(--primary-dark); }
+.btn-save:disabled{ background:#D8D2E0; cursor:not-allowed; }
+.empty-state{ text-align:center; padding:50px 20px; color:var(--ink-soft); }
+.toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:#fff; padding:13px 22px; border-radius:999px; font-size:0.85rem; font-weight:700; box-shadow:var(--shadow-md); opacity:0; pointer-events:none; transition:0.25s; z-index:200; display:flex; align-items:center; gap:9px; }
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+.toast i{ color:#8FD19E; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-brand">
+      <div class="topbar-mark"><img src="aymi-logo.jpg" alt="AYMI"></div>
+      <div>
+        <div class="topbar-title">AYMI — админка</div>
+        <div class="topbar-sub" id="staffLabel">панель управления</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <a href="pads.html" target="_blank" class="btn btn-ghost"><i class="fa-solid fa-up-right-from-square"></i></a>
+      <button class="btn btn-ghost" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> <span>Выйти</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="tabs-row">
+    <button class="tab-btn active" data-tab="products"><i class="fa-solid fa-box"></i> Товары</button>
+    <button class="tab-btn" data-tab="orders"><i class="fa-solid fa-receipt"></i> Заказы</button>
+    <button class="tab-btn" data-tab="stats"><i class="fa-solid fa-chart-line"></i> Статистика</button>
+  </div>
+
+  <div id="productsTab">
+    <div class="toolbar">
+      <div><h2>Товары</h2><div class="count" id="productCount"></div></div>
+      <button class="btn btn-primary" id="addProductBtn"><i class="fa-solid fa-plus"></i> Добавить товар</button>
+    </div>
+    <div id="productList"><div class="empty-state">Загрузка…</div></div>
+  </div>
+
+  <div id="ordersTab" style="display:none;">
+    <div class="toolbar">
+      <div><h2>Заказы</h2><div class="count" id="orderCount"></div></div>
+    </div>
+    <div id="orderList"><div class="empty-state">Загрузка…</div></div>
+  </div>
+
+  <div id="statsTab" style="display:none;">
+    <div class="toolbar"><h2>Статистика</h2></div>
+    <div class="period-tabs">
+      <button class="period-tab active" data-period="today">Сегодня</button>
+      <button class="period-tab" data-period="7d">7 дней</button>
+      <button class="period-tab" data-period="30d">30 дней</button>
+      <button class="period-tab" data-period="all">Всё время</button>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-card-label">Выручка</div><div class="stat-card-value" id="statRevenue">0 сом</div></div>
+      <div class="stat-card"><div class="stat-card-label">Заказов</div><div class="stat-card-value" id="statOrders">0</div></div>
+      <div class="stat-card"><div class="stat-card-label">Средний чек</div><div class="stat-card-value" id="statAvg">0 сом</div></div>
+    </div>
+    <div id="topProductsBox"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="productModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="productFormTitle">Новый товар</h3>
+      <button class="modal-close" id="productFormClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-error" id="productFormError"></div>
+      <form id="productForm">
+        <div class="two-col">
+          <div class="field"><label>Название (кырг.)</label><input type="text" id="pName" required></div>
+          <div class="field"><label>Название (рус.)</label><input type="text" id="pNameRu"></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label>Описание (кырг.)</label><textarea id="pDesc" rows="2"></textarea></div>
+          <div class="field"><label>Описание (рус.)</label><textarea id="pDescRu" rows="2"></textarea></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label>Цена (сом)</label><input type="number" id="pPrice" min="0" step="1" required></div>
+          <div class="field"><label>Остаток (шт. упаковок)</label><input type="number" id="pStock" min="0" step="1" required></div>
+        </div>
+        <div class="field"><label>Фото (ссылка)</label><input type="text" id="pPhoto" placeholder="images/photo1.jpg"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="productFormCancel">Отмена</button>
+          <button type="submit" class="btn-save" id="productFormSave">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastText"></span></div>
+
+<script>
+const SUPABASE_URL = "https://lzqpruamitoyrtkxctcd.supabase.co";
+const SUPABASE_KEY = "sb_publishable_rELycZN85GDvAtaWJZKa2g_mlON77V9";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function escapeHtml(str){ const d=document.createElement("div"); d.textContent=String(str); return d.innerHTML; }
+let toastTimer = null;
+function showToast(text){
+  const toast = document.getElementById("toast");
+  document.getElementById("toastText").textContent = text;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toast.classList.remove("show"), 2600);
+}
+
+async function guardAuth(){
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if(!session){ window.location.href = "admin-login.html"; return null; }
+  const { data: staffRow } = await supabaseClient.from("staff").select("*").eq("id", session.user.id).maybeSingle();
+  if(!staffRow){ window.location.href = "admin-login.html"; return null; }
+  document.getElementById("staffLabel").textContent = staffRow.full_name ? "панель управления · " + staffRow.full_name : "панель управления";
+  return staffRow;
+}
+document.getElementById("logoutBtn").addEventListener("click", async ()=>{
+  await supabaseClient.auth.signOut();
+  window.location.href = "admin-login.html";
+});
+
+/* ---------- tabs ---------- */
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=> b.classList.toggle("active", b===btn));
+    const tab = btn.dataset.tab;
+    document.getElementById("productsTab").style.display = tab==="products" ? "" : "none";
+    document.getElementById("ordersTab").style.display = tab==="orders" ? "" : "none";
+    document.getElementById("statsTab").style.display = tab==="stats" ? "" : "none";
+    if(tab==="stats") renderStats();
+  });
+});
+
+/* ---------- products ---------- */
+let PRODUCTS = [];
+async function loadProducts(){
+  const { data, error } = await supabaseClient.from("products").select("*").order("sort_order");
+  if(error){ document.getElementById("productList").innerHTML = '<div class="empty-state">Ошибка: '+escapeHtml(error.message)+'</div>'; return; }
+  PRODUCTS = data || [];
+  renderProducts();
+}
+function renderProducts(){
+  document.getElementById("productCount").textContent = "Всего товаров: " + PRODUCTS.length;
+  const el = document.getElementById("productList");
+  if(!PRODUCTS.length){ el.innerHTML = '<div class="empty-state">Пока нет ни одного товара</div>'; return; }
+  el.innerHTML = PRODUCTS.map(p=>{
+    const low = p.stock_quantity <= 10;
+    return `
+      <div class="product-row">
+        <div class="product-row-thumb">${p.photo_url ? `<img src="${p.photo_url}">` : '<i class="fa-solid fa-leaf" style="color:var(--primary);opacity:0.4;"></i>'}</div>
+        <div class="product-row-info">
+          <div class="product-row-name">${escapeHtml(p.name_ru || p.name)}</div>
+          <div class="product-row-meta">${Number(p.price)} сом · остаток: <span class="stock-pill ${low?'low':''}">${p.stock_quantity}</span></div>
+        </div>
+        <div class="product-row-actions">
+          <button class="icon-btn" data-edit="${p.id}"><i class="fa-solid fa-pen"></i></button>
+          <button class="icon-btn danger" data-delete="${p.id}"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
+    `;
+  }).join("");
+  el.querySelectorAll("[data-edit]").forEach(btn=> btn.addEventListener("click", ()=> openProductForm(btn.dataset.edit)));
+  el.querySelectorAll("[data-delete]").forEach(btn=> btn.addEventListener("click", ()=> deleteProduct(btn.dataset.delete)));
+}
+
+let editingProductId = null;
+const productModal = document.getElementById("productModal");
+const productForm = document.getElementById("productForm");
+document.getElementById("addProductBtn").addEventListener("click", ()=> openProductForm(null));
+document.getElementById("productFormClose").addEventListener("click", closeProductForm);
+document.getElementById("productFormCancel").addEventListener("click", closeProductForm);
+productModal.addEventListener("click", (e)=>{ if(e.target===productModal) closeProductForm(); });
+
+function openProductForm(id){
+  editingProductId = id;
+  document.getElementById("productFormError").classList.remove("show");
+  productForm.reset();
+  if(id){
+    const p = PRODUCTS.find(x=>x.id===id);
+    document.getElementById("productFormTitle").textContent = "Редактировать товар";
+    document.getElementById("pName").value = p.name || "";
+    document.getElementById("pNameRu").value = p.name_ru || "";
+    document.getElementById("pDesc").value = p.description || "";
+    document.getElementById("pDescRu").value = p.description_ru || "";
+    document.getElementById("pPrice").value = p.price;
+    document.getElementById("pStock").value = p.stock_quantity;
+    document.getElementById("pPhoto").value = p.photo_url || "";
+  } else {
+    document.getElementById("productFormTitle").textContent = "Новый товар";
+    document.getElementById("pStock").value = 0;
+  }
+  productModal.classList.add("open");
+}
+function closeProductForm(){ productModal.classList.remove("open"); }
+
+productForm.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const errEl = document.getElementById("productFormError");
+  errEl.classList.remove("show");
+  const saveBtn = document.getElementById("productFormSave");
+  saveBtn.disabled = true; saveBtn.textContent = "Сохраняем…";
+  try{
+    const payload = {
+      name: document.getElementById("pName").value.trim(),
+      name_ru: document.getElementById("pNameRu").value.trim() || null,
+      description: document.getElementById("pDesc").value.trim() || null,
+      description_ru: document.getElementById("pDescRu").value.trim() || null,
+      price: parseFloat(document.getElementById("pPrice").value) || 0,
+      stock_quantity: parseInt(document.getElementById("pStock").value) || 0,
+      photo_url: document.getElementById("pPhoto").value.trim() || null
+    };
+    let saveErr;
+    if(editingProductId){
+      ({ error: saveErr } = await supabaseClient.from("products").update(payload).eq("id", editingProductId));
+    } else {
+      payload.sort_order = PRODUCTS.length;
+      ({ error: saveErr } = await supabaseClient.from("products").insert(payload));
+    }
+    if(saveErr) throw new Error(saveErr.message);
+    closeProductForm();
+    showToast(editingProductId ? "Товар обновлён" : "Товар добавлен");
+    await loadProducts();
+  }catch(err){
+    errEl.textContent = err.message; errEl.classList.add("show");
+  }finally{
+    saveBtn.disabled = false; saveBtn.textContent = "Сохранить";
+  }
+});
+
+async function deleteProduct(id){
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  if(!confirm('Удалить «'+(p.name_ru||p.name)+'»?')) return;
+  const { error } = await supabaseClient.from("products").delete().eq("id", id);
+  if(error){ showToast("Ошибка: " + error.message); return; }
+  showToast("Товар удалён");
+  await loadProducts();
+}
+
+/* ---------- orders ---------- */
+let ORDERS = [];
+let ORDER_ITEMS_BY_ORDER = {};
+async function loadOrders(){
+  const { data: orders, error } = await supabaseClient.from("orders").select("*").order("created_at", { ascending:false });
+  if(error){ document.getElementById("orderList").innerHTML = '<div class="empty-state">Ошибка: '+escapeHtml(error.message)+'</div>'; return; }
+  ORDERS = orders || [];
+  const ids = ORDERS.map(o=>o.id);
+  ORDER_ITEMS_BY_ORDER = {};
+  if(ids.length){
+    const { data: items } = await supabaseClient.from("order_items").select("*").in("order_id", ids);
+    (items||[]).forEach(it=>{
+      if(!ORDER_ITEMS_BY_ORDER[it.order_id]) ORDER_ITEMS_BY_ORDER[it.order_id] = [];
+      ORDER_ITEMS_BY_ORDER[it.order_id].push(it);
+    });
+  }
+  renderOrders();
+}
+function statusLabel(s){
+  return { new:"Новый", processing:"В обработке", completed:"Завершён", cancelled:"Отменён" }[s] || s;
+}
+function getOrderActions(status){
+  if(status==="new") return [{to:"processing", label:"В обработку", cls:"order-action-primary"},{to:"cancelled", label:"Отменить", cls:"order-action-danger"}];
+  if(status==="processing") return [{to:"completed", label:"Завершить", cls:"order-action-success"},{to:"cancelled", label:"Отменить", cls:"order-action-danger"}];
+  return [];
+}
+function renderOrders(){
+  document.getElementById("orderCount").textContent = "Всего заказов: " + ORDERS.length;
+  const el = document.getElementById("orderList");
+  if(!ORDERS.length){ el.innerHTML = '<div class="empty-state">Пока нет заказов</div>'; return; }
+  el.innerHTML = ORDERS.map(o=>{
+    const items = ORDER_ITEMS_BY_ORDER[o.id] || [];
+    const time = o.created_at ? new Date(o.created_at).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}) : "";
+    const actions = getOrderActions(o.status);
+    return `
+      <div class="order-card">
+        <div class="order-card-top">
+          <div><div class="order-card-id">№${o.order_number||String(o.id).slice(0,8)}</div><div class="order-card-time">${time}</div></div>
+          <span class="order-status-badge status-${o.status}">${statusLabel(o.status)}</span>
+        </div>
+        <div class="order-customer">
+          ${o.customer_name ? `<span><i class="fa-solid fa-user"></i> ${escapeHtml(o.customer_name)}</span>` : ""}
+          ${o.customer_contact ? `<span><i class="fa-solid fa-phone"></i> ${escapeHtml(o.customer_contact)}</span>` : ""}
+        </div>
+        ${o.delivery_type==="delivery" ? `<div class="delivery-info"><i class="fa-solid fa-truck"></i> Доставка: ${escapeHtml(o.delivery_address||"—")}</div>` : `<div class="delivery-info"><i class="fa-solid fa-store"></i> Самовывоз</div>`}
+        ${o.comment ? `<div class="order-comment"><i class="fa-solid fa-comment-dots"></i> ${escapeHtml(o.comment)}</div>` : ""}
+        <div class="order-items-list">
+          ${items.map(it=>`<div><span>${escapeHtml(it.product_name)} × ${it.qty}</span><span>${Number(it.price)*it.qty} сом</span></div>`).join("") || '<div style="color:var(--ink-soft);">нет позиций</div>'}
+        </div>
+        <div class="order-total-row"><span>Итого</span><span>${Number(o.total)} сом</span></div>
+        ${actions.length ? `<div class="order-actions">${actions.map(a=>`<button class="order-action-btn ${a.cls}" data-order="${o.id}" data-to="${a.to}">${a.label}</button>`).join("")}</div>` : ""}
+      </div>
+    `;
+  }).join("");
+  el.querySelectorAll("[data-to]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const to = btn.dataset.to;
+      if(to==="cancelled" && !confirm("Точно отменить этот заказ?")) return;
+      updateOrderStatus(btn.dataset.order, to);
+    });
+  });
+}
+async function updateOrderStatus(id, status){
+  const { error } = await supabaseClient.from("orders").update({ status }).eq("id", id);
+  if(error){ showToast("Ошибка: " + error.message); return; }
+  showToast("Статус обновлён");
+  await loadOrders();
+}
+
+/* ---------- stats ---------- */
+let statsPeriod = "today";
+document.querySelectorAll(".period-tab").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".period-tab").forEach(b=> b.classList.toggle("active", b===btn));
+    statsPeriod = btn.dataset.period;
+    renderStats();
+  });
+});
+function renderStats(){
+  const now = new Date();
+  let fromDate = null;
+  if(statsPeriod==="today"){ fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()); }
+  else if(statsPeriod==="7d"){ fromDate = new Date(now.getTime() - 7*24*3600*1000); }
+  else if(statsPeriod==="30d"){ fromDate = new Date(now.getTime() - 30*24*3600*1000); }
+
+  const relevant = ORDERS.filter(o=> o.status !== "cancelled" && (!fromDate || new Date(o.created_at) >= fromDate));
+  const revenue = relevant.reduce((s,o)=> s + Number(o.total), 0);
+  const count = relevant.length;
+  const avg = count ? Math.round(revenue/count) : 0;
+  document.getElementById("statRevenue").textContent = revenue + " сом";
+  document.getElementById("statOrders").textContent = count;
+  document.getElementById("statAvg").textContent = avg + " сом";
+
+  const soldByProduct = {};
+  relevant.forEach(o=>{
+    (ORDER_ITEMS_BY_ORDER[o.id]||[]).forEach(it=>{
+      soldByProduct[it.product_name] = (soldByProduct[it.product_name]||0) + it.qty;
+    });
+  });
+  const sorted = Object.entries(soldByProduct).sort((a,b)=>b[1]-a[1]);
+  const box = document.getElementById("topProductsBox");
+  if(!sorted.length){ box.innerHTML = ""; return; }
+  box.innerHTML = '<h3 style="font-size:1.05rem;margin-bottom:12px;">Продажи по товарам</h3>' + sorted.map(([name,qty])=>`
+    <div class="product-row" style="justify-content:space-between;">
+      <div class="product-row-name">${escapeHtml(name)}</div>
+      <div style="font-weight:800;color:var(--primary-dark);">${qty} шт</div>
+    </div>
+  `).join("");
+}
+
+(async () => {
+  const staff = await guardAuth();
+  if(!staff) return;
+  await loadProducts();
+  await loadOrders();
+})();
+</script>
+</body>
+</html>
