@@ -7,13 +7,13 @@
 
   <style>
     :root {
-      --blue: #58a6ff;
-      --green: #5fc7a1;
-      --dark: #1f2937;
-      --muted: #6b7280;
-      --bg: #f7f7f7;
+      --blue: #6B4E8E;
+      --green: #2E9B85;
+      --dark: #241F30;
+      --muted: #8B8296;
+      --bg: #FCFAFD;
       --white: #ffffff;
-      --shadow: 0 15px 40px rgba(0,0,0,.10);
+      --shadow: 0 15px 40px rgba(42,36,56,.14);
     }
 
     * {
@@ -161,6 +161,8 @@
     }
 
     h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
       font-size: 52px;
       line-height: 1.1;
       margin: 0 0 20px;
@@ -796,8 +798,12 @@
     gap:12px;
   }
 }
+h1,h2,h3{ font-family:'Fraunces',serif; font-weight:800; }
+.btn{ transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s; }
+.btn:hover{ transform:translateY(-3px) scale(1.02); }
   </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -829,7 +835,7 @@
     <button onclick="setLang('ar')">العربية</button>
   </div>
 </div>
-    <a href="#contact" class="btn btn-light" data-key="btn_order">Заказать</a>
+    <a href="index.html" class="btn btn-light" data-key="btn_order">Заказать</a>
     <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
   </div>
 </header>
@@ -858,7 +864,7 @@
 Бренд женской гигиены, объединяющий современные материалы, мягкость и комфорт. Дневные и ночные прокладки разработаны для надёжной защиты и уверенности в течение всего дня и ночи.
         </p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Оставить заявку</a>
+          <a href="index.html" class="btn btn-primary">Оставить заявку</a>
           <a href="#wholesale" class="btn btn-outline">Для партнёров</a>
         </div>
       </div>
