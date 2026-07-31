@@ -1,160 +1,488 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ky">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-key="page_title">AYMI — Галерея прокладок</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AYMI — дүкөн</title>
+<link rel="icon" href="aymi-logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#FAF8FB; --bg-alt:#F1ECF4; --bg-card:#FFFFFF; --ink:#2A2438; --ink-soft:#8B8296; --line:#E9E3EF;
+  --primary:#6B4E8E; --primary-dark:#52396F; --accent:#2E9B85; --primary-soft:#EEE7F5;
+  --danger:#C1121F; --danger-soft:#FBEAEA;
+  --shadow-sm: 0 1px 3px rgba(42,36,56,0.07), 0 1px 2px rgba(42,36,56,0.04);
+  --shadow-md: 0 8px 24px rgba(42,36,56,0.1);
+  --radius-sm:14px; --radius-md:20px; --radius-lg:26px;
+  --font-display:'Fraunces',serif; --font-body:'Manrope',sans-serif;
+  --tabbar-h:64px;
+}
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:var(--font-body); background:var(--bg); color:var(--ink); min-height:100vh; padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom)); }
+button{ font-family:inherit; cursor:pointer; border:none; background:none; }
+h1,h2,h3{ font-family:var(--font-display); font-weight:800; }
+img{ max-width:100%; display:block; }
+.container{ max-width:1000px; margin:0 auto; padding:0 18px; }
+.gradient-primary{ background:linear-gradient(135deg, var(--primary), var(--primary-dark)); }
 
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f7f7f7; color: #1f2937; }
-    .pads-page { min-height: 100vh; background: radial-gradient(circle at top left, rgba(88,166,255,.18), transparent 35%), radial-gradient(circle at bottom right, rgba(95,199,161,.22), transparent 35%), linear-gradient(180deg, #ffffff 0%, #eef8f6 100%); }
-    .pads-header { position: sticky; top: 0; z-index: 1000; background: linear-gradient(90deg, #58a6ff, #5fc7a1); box-shadow: 0 8px 25px rgba(0,0,0,.15); }
-    .pads-nav { max-width: 1150px; margin: 0 auto; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-    .pads-logo { display: flex; align-items: center; gap: 12px; color: #fff; font-size: 24px; font-weight: 900; text-decoration: none; }
-    .pads-logo img { width: 48px; height: 48px; border-radius: 14px; background: #fff; padding: 4px; object-fit: cover; }
-    .pads-menu { display: flex; gap: 28px; }
-    .pads-menu a { color: #fff; text-decoration: none; font-weight: 800; transition: .3s; }
-    .pads-menu a:hover { transform: translateY(-2px); opacity: .85; }
-    .pads-right{ display:flex; align-items:center; gap:14px; }
-    .pads-order { background: #fff; color: #1f2937; padding: 14px 24px; border-radius: 16px; font-weight: 900; text-decoration: none; transition: .3s; }
-    .pads-order:hover { transform: translateY(-3px); }
-    .language{ position:relative; }
-    .language-btn{ border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.18); color:#fff; padding:10px 16px; border-radius:999px; font-weight:900; cursor:pointer; box-shadow:0 8px 22px rgba(0,0,0,.08); }
-    .language-menu{ display:none; position:absolute; top:46px; right:0; background:rgba(255,255,255,.98); border-radius:18px; padding:8px; box-shadow:0 18px 45px rgba(0,0,0,.16); min-width:150px; z-index:9999; }
-    .language-menu.show{ display:grid; gap:3px; }
-    .language-menu button{ border:none; background:transparent; padding:9px 12px; border-radius:12px; text-align:left; font-weight:800; cursor:pointer; color:#1f2937; transition:.2s; }
-    .language-menu button:hover{ background:#eef8f6; color:#2563eb; }
-    .pads-hero{ text-align:center; padding:50px 18px 30px; }
-    .pads-hero span { display: inline-block; padding: 10px 18px; border-radius: 999px; background: rgba(88,166,255,.14); color: #2563eb; font-weight: 900; text-transform: uppercase; font-size: 14px; }
-    .pads-hero h1{ font-size:42px; line-height:1.1; margin:15px 0; font-weight:900; color:#1f2937; }
-    .pads-hero p{ max-width:700px; margin:0 auto; font-size:16px; line-height:1.7; color:#6b7280; }
-    .slider-wrap { max-width: 1080px; margin: 20px auto 70px; padding: 0 18px; }
-    .main-slider { position: relative; background: #fff; padding: 22px; border-radius: 34px; box-shadow: 0 18px 45px rgba(0,0,0,.12); overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .main-slider img { width: auto; max-width: 100%; height: auto; max-height: 700px; object-fit: contain; border-radius: 26px; display: block; transition: .45s ease; }
-    .main-slider:hover img { transform: scale(1.015); }
-    .arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 54px; height: 54px; border-radius: 50%; border: none; cursor: pointer; background: linear-gradient(90deg, #58a6ff, #5fc7a1); color: #fff; font-size: 34px; font-weight: 900; box-shadow: 0 10px 25px rgba(0,0,0,.18); transition: .3s; }
-    .arrow:hover { transform: translateY(-50%) scale(1.08); }
-    .prev { left: 36px; } .next { right: 36px; }
-    .thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 18px; }
-    .thumb { height: 135px; border-radius: 20px; overflow: hidden; background: #fff; box-shadow: 0 8px 20px rgba(0,0,0,.08); border: 3px solid transparent; cursor: pointer; transition: .3s; }
-    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: .35s; }
-    .thumb:hover { transform: translateY(-5px); }
-    .thumb:hover img { transform: scale(1.08); }
-    .thumb.active { border-color: #58a6ff; box-shadow: 0 0 22px rgba(88,166,255,.35); transform: translateY(-5px); }
-    .pads-footer { background: #111827; color: #fff; text-align: center; padding: 28px 10px; margin-top: 40px; font-family: Arial, sans-serif; }
-    .pads-footer strong { font-size: 22px; display: block; margin-bottom: 8px; }
-    .pads-footer p { margin: 0; color: #d1d5db; }
-    body[dir="rtl"] .language-menu{ right:auto; left:0; }
-    body[dir="rtl"] .language-menu button{ text-align:right; }
-    @media (max-width: 900px) { .pads-menu { display: none; } .pads-hero h1 { font-size: 38px; } .main-slider img { height: auto; max-height: 620px; } .thumbs { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 560px) { .pads-nav{ flex-wrap:wrap; } .pads-hero { padding: 45px 14px 25px; } .pads-hero h1 { font-size: 31px; } .main-slider { padding: 14px; border-radius: 26px; } .main-slider img { max-height: 520px; height: auto; border-radius: 20px; } .thumbs { grid-template-columns: repeat(2, 1fr); } .thumb { height: 115px; } .arrow { width: 44px; height: 44px; font-size: 26px; } .prev { left: 22px; } .next { right: 22px; } .pads-order{padding:12px 18px;} }
-  </style>
+/* header */
+.site-header{ background:var(--bg-card); border-bottom:1px solid var(--line); padding:14px 0; position:sticky; top:0; z-index:50; }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.brand-row{ display:flex; align-items:center; gap:10px; }
+.brand-row img{ width:38px; height:38px; border-radius:50%; object-fit:cover; }
+.brand-row span{ font-family:var(--font-display); font-weight:800; font-size:1.15rem; color:var(--primary-dark); }
+.back-link{ display:flex; align-items:center; gap:6px; color:var(--ink-soft); font-size:0.85rem; font-weight:700; }
+.lang-switch{ display:flex; gap:4px; background:var(--bg-alt); border-radius:999px; padding:3px; }
+.lang-switch button{ padding:6px 11px; border-radius:999px; font-weight:800; font-size:0.72rem; color:var(--ink-soft); }
+.lang-switch button.active{ background:var(--primary); color:#fff; }
+
+/* hero */
+.shop-hero{ padding:26px 0 18px; text-align:center; }
+.shop-hero h1{ font-size:1.6rem; margin-bottom:6px; color:var(--primary-dark); }
+.shop-hero p{ color:var(--ink-soft); font-size:0.92rem; max-width:480px; margin:0 auto; }
+
+/* product grid */
+.product-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:10px 0 30px; }
+@media (min-width:640px){ .product-grid{ grid-template-columns:1fr 1fr 1fr; gap:18px; } }
+.product-card{ background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; }
+.product-photo{ width:100%; aspect-ratio:1/1; background:var(--bg-alt); position:relative; overflow:hidden; }
+.product-photo img{ width:100%; height:100%; object-fit:cover; }
+.stock-badge{ position:absolute; top:10px; left:10px; background:rgba(255,255,255,0.92); color:var(--primary-dark); font-size:0.68rem; font-weight:800; padding:4px 10px; border-radius:999px; }
+.stock-badge.low{ color:var(--danger); }
+.product-body{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1; }
+.product-name{ font-weight:700; font-size:0.92rem; color:var(--ink); line-height:1.3; }
+.product-desc{ font-size:0.76rem; color:var(--ink-soft); line-height:1.4; flex:1; }
+.product-bottom{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; gap:8px; }
+.product-price{ font-family:var(--font-display); font-weight:800; font-size:1.05rem; color:var(--primary-dark); }
+.qty-stepper{ display:flex; align-items:center; gap:8px; }
+.qty-stepper button{ width:30px; height:30px; border-radius:9px; background:var(--bg-alt); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--primary-dark); }
+.qty-stepper span{ min-width:16px; text-align:center; font-weight:800; font-size:0.88rem; }
+.add-btn{ width:100%; margin-top:8px; padding:10px; border-radius:12px; background:var(--primary); color:#fff; font-weight:700; font-size:0.85rem; display:flex; align-items:center; justify-content:center; gap:6px; }
+.add-btn:hover{ background:var(--primary-dark); }
+.add-btn:disabled{ background:#D8D2E0; cursor:default; }
+
+/* floating cart bar */
+.floating-cart-bar{ position:fixed; left:16px; right:16px; bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 14px); z-index:90; display:none; align-items:center; justify-content:space-between; background:var(--primary); color:#fff; padding:14px 20px; border-radius:100px; box-shadow:var(--shadow-md); font-weight:700; font-size:0.88rem; }
+.floating-cart-bar.show{ display:flex; }
+
+/* tab bar */
+.tab-bar{ position:fixed; left:0; right:0; bottom:0; height:calc(var(--tabbar-h) + env(safe-area-inset-bottom)); background:var(--bg-card); border-top:1px solid var(--line); display:flex; z-index:80; padding-bottom:env(safe-area-inset-bottom); }
+.tab-bar-btn{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:var(--ink-soft); font-size:0.68rem; font-weight:700; position:relative; }
+.tab-bar-btn.active{ color:var(--primary); }
+.tab-bar-btn i{ font-size:1.05rem; }
+.tab-badge{ position:absolute; top:2px; right:calc(50% - 20px); background:var(--danger); color:#fff; font-size:0.6rem; font-weight:800; border-radius:999px; padding:1px 5px; min-width:15px; text-align:center; }
+
+/* screens */
+.app-screen{ min-height:40vh; }
+
+/* cart screen */
+.cart-item{ display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); align-items:center; }
+.cart-item-photo{ width:64px; height:64px; border-radius:12px; overflow:hidden; background:var(--bg-alt); flex-shrink:0; }
+.cart-item-photo img{ width:100%; height:100%; object-fit:cover; }
+.cart-item-info{ flex:1; min-width:0; }
+.cart-item-name{ font-weight:700; font-size:0.88rem; }
+.cart-item-price{ color:var(--ink-soft); font-size:0.8rem; margin-top:2px; }
+.cart-summary{ margin-top:18px; padding-top:16px; border-top:2px solid var(--line); }
+.cart-total-row{ display:flex; justify-content:space-between; font-family:var(--font-display); font-weight:800; font-size:1.2rem; margin-bottom:16px; }
+.checkout-btn{ width:100%; padding:15px; border-radius:16px; background:var(--primary); color:#fff; font-weight:800; font-size:0.95rem; }
+.checkout-btn:disabled{ background:#D8D2E0; }
+.empty-state{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+
+/* overlay */
+.full-overlay{ position:fixed; inset:0; background:var(--bg); z-index:150; display:flex; flex-direction:column; transform:translateY(100%); transition:transform 0.3s ease; }
+.full-overlay.open{ transform:translateY(0); }
+.full-overlay-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:1px solid var(--line); }
+.full-overlay-body{ flex:1; overflow-y:auto; padding:20px; }
+.full-overlay-foot{ padding:16px 20px calc(20px + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background:var(--bg-card); }
+.icon-btn-plain{ width:36px; height:36px; border-radius:50%; background:var(--bg-alt); display:flex; align-items:center; justify-content:center; color:var(--ink-soft); }
+
+.field{ margin-bottom:14px; }
+.field label{ font-size:0.78rem; font-weight:700; color:var(--ink-soft); display:block; margin-bottom:6px; }
+.field input, .field textarea, .field select{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--bg-card); font-family:inherit; font-size:0.92rem; color:var(--ink); }
+.field input:focus, .field textarea:focus{ outline:2px solid var(--primary); outline-offset:1px; }
+.delivery-toggle{ display:flex; gap:8px; margin-bottom:14px; }
+.delivery-btn{ flex:1; padding:11px; border-radius:12px; border:1.5px solid var(--line); background:var(--bg-card); font-weight:700; font-size:0.85rem; color:var(--ink-soft); }
+.delivery-btn.active{ background:var(--primary-soft); border-color:var(--primary); color:var(--primary-dark); }
+
+.success-state{ position:absolute; inset:0; z-index:5; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:32px; gap:12px; }
+.success-icon{ width:92px; height:92px; border-radius:50%; background:var(--primary); color:#fff; font-size:2.3rem; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-md); animation:successPop 0.5s cubic-bezier(.34,1.56,.64,1); }
+@keyframes successPop{ 0%{ transform:scale(0); opacity:0; } 60%{ transform:scale(1.15); opacity:1; } 100%{ transform:scale(1); } }
+
+.toast{ position:fixed; bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 14px); left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:#fff; padding:12px 22px; border-radius:999px; font-size:0.84rem; font-weight:700; box-shadow:var(--shadow-md); opacity:0; pointer-events:none; transition:0.25s; z-index:200; }
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
 </head>
+<body>
 
-<body class="pads-page">
-<header class="pads-header">
-  <div class="pads-nav">
-    <a href="index.html" class="pads-logo">
-      <img src="aymi-logo.jpg" alt="AYMI">
-      <span>AYMI</span>
-    </a>
-
-    <nav class="pads-menu">
-      <a href="index.html" data-key="menu_home">Главная</a>
-      <a href="index.html#catalog" data-key="menu_catalog">Каталог</a>
-      <a href="index.html#contact" data-key="menu_contact">Контакты</a>
-    </nav>
-
-    <div class="pads-right">
-      <div class="language">
-        <button class="language-btn" id="languageBtn" onclick="toggleLangMenu()">🌐 RU</button>
-        <div class="language-menu" id="languageMenu">
-          <button onclick="setLang('ru')">Русский</button>
-          <button onclick="setLang('en')">English</button>
-          <button onclick="setLang('kg')">Кыргызча</button>
-          <button onclick="setLang('kz')">Қазақша</button>
-          <button onclick="setLang('uz')">O'zbekcha</button>
-          <button onclick="setLang('tr')">Türkçe</button>
-          <button onclick="setLang('ar')">العربية</button>
-        </div>
-      </div>
-      <a href="index.html#contact" class="pads-order" data-key="order_btn">Заказать</a>
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backToSite">Башкы бетке</span></a>
+    <div class="brand-row"><img src="aymi-logo.jpg" alt="AYMI"><span>AYMI</span></div>
+    <div class="lang-switch">
+      <button data-lang="kg" class="active">KG</button>
+      <button data-lang="ru">RU</button>
+      <button data-lang="en">EN</button>
     </div>
   </div>
 </header>
 
-<main>
-  <section class="pads-hero">
-    <span data-key="gallery_badge">Галерея продукции</span>
-    <h1 data-key="gallery_title">Прокладки AYMI</h1>
-    <p data-key="gallery_text">Фотографии продукции AYMI: упаковка, линейки и реальные изображения товара.</p>
-  </section>
+<div class="container">
+  <div class="shop-hero">
+    <h1 data-i18n="shopTitle">AYMI дүкөнү</h1>
+    <p data-i18n="shopSubtitle">Табигый эко прокладкалар — үйгө жеткирүү менен</p>
+  </div>
 
-  <section class="slider-wrap">
-    <div class="main-slider">
-      <img id="mainImage" src="images/photo1.jpg" alt="AYMI product">
-      <button class="arrow prev" onclick="prevSlide()">‹</button>
-      <button class="arrow next" onclick="nextSlide()">›</button>
+  <div id="screenCatalog" class="app-screen">
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+
+  <div id="screenCart" class="app-screen" style="display:none;">
+    <div id="cartList"></div>
+    <div class="cart-summary" id="cartSummary" style="display:none;">
+      <div class="cart-total-row"><span data-i18n="totalLabel">Баары болуп</span><span id="cartTotal">0 сом</span></div>
+      <button class="checkout-btn" id="checkoutBtn" data-i18n="checkoutBtn">Заказ берүү</button>
     </div>
+  </div>
+</div>
 
-    <div class="thumbs">
-      <div class="thumb active" onclick="setSlide(0)"><img src="images/photo1.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(1)"><img src="images/photo2.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(2)"><img src="images/photo3.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(3)"><img src="images/photo4.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(4)"><img src="images/photo5.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(5)"><img src="images/photo6.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(6)"><img src="images/photo7.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(7)"><img src="images/photo8.jpg" alt="AYMI"></div>
-      <div class="thumb" onclick="setSlide(8)"><img src="images/photo9.jpg" alt="AYMI"></div>
+<button class="floating-cart-bar" id="floatingCartBar">
+  <span><i class="fa-solid fa-basket-shopping"></i> <span id="floatingCartCount">0</span> <span data-i18n="itemsWord">товар</span></span>
+  <span id="floatingCartTotal">0 сом</span>
+</button>
+
+<nav class="tab-bar">
+  <button class="tab-bar-btn active" data-screen="catalog"><i class="fa-solid fa-store"></i><span data-i18n="tabCatalog">Дүкөн</span></button>
+  <button class="tab-bar-btn" data-screen="cart"><i class="fa-solid fa-basket-shopping"></i><span data-i18n="tabCart">Себет</span><span class="tab-badge" id="cartTabBadge" style="display:none;">0</span></button>
+</nav>
+
+<div class="full-overlay" id="checkoutOverlay">
+  <div class="success-state" id="successState" style="display:none;">
+    <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+    <h2 data-i18n="successTitle">Заказ кабыл алынды!</h2>
+    <p id="successNumber" style="font-weight:800;color:var(--primary-dark);"></p>
+    <p style="color:var(--ink-soft);" data-i18n="successHint">Биз сиз менен байланышабыз</p>
+  </div>
+  <div class="full-overlay-head">
+    <h3 data-i18n="checkoutTitle">Заказды таштыктоо</h3>
+    <button class="icon-btn-plain" id="checkoutClose"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="full-overlay-body">
+    <div class="field">
+      <label data-i18n="nameLabel">Атыңыз</label>
+      <input type="text" id="custName" data-i18n-placeholder="namePlaceholder" placeholder="Атыңыз">
     </div>
-  </section>
-</main>
+    <div class="field">
+      <label data-i18n="phoneLabel">Телефон номериңиз *</label>
+      <input type="tel" id="custPhone" data-i18n-placeholder="phonePlaceholder" placeholder="+996 ...">
+    </div>
+    <div class="delivery-toggle">
+      <button type="button" class="delivery-btn active" id="pickupBtn" data-i18n="pickupBtn">Өзүм алам</button>
+      <button type="button" class="delivery-btn" id="deliveryBtn" data-i18n="deliveryBtn">Жеткирүү</button>
+    </div>
+    <div class="field" id="addressField" style="display:none;">
+      <label data-i18n="addressLabel">Дарек</label>
+      <textarea id="custAddress" rows="2" data-i18n-placeholder="addressPlaceholder" placeholder="Дарегиңизди жазыңыз"></textarea>
+    </div>
+    <div class="field">
+      <label data-i18n="commentLabel">Комментарий (милдеттүү эмес)</label>
+      <textarea id="custComment" rows="2"></textarea>
+    </div>
+    <div id="checkoutError" style="display:none;background:var(--danger-soft);color:var(--danger);border-radius:10px;padding:10px 12px;font-size:0.82rem;margin-bottom:10px;"></div>
+  </div>
+  <div class="full-overlay-foot">
+    <button class="checkout-btn" id="submitOrderBtn" data-i18n="submitOrderBtn">Заказды тастыктоо</button>
+  </div>
+</div>
 
-<footer class="pads-footer">
-  <strong>AYMI</strong>
-  <p data-key="footer_text">© 2026. Натуральный комфорт каждый день.</p>
-</footer>
+<div class="toast" id="toast"><span id="toastText"></span></div>
 
 <script>
-const slides = ["images/photo1.jpg","images/photo2.jpg","images/photo3.jpg","images/photo4.jpg","images/photo5.jpg","images/photo6.jpg","images/photo7.jpg","images/photo8.jpg","images/photo9.jpg"];
-let current = 0;
-function updateSlider(){
-  document.getElementById("mainImage").src = slides[current];
-  document.querySelectorAll(".thumb").forEach((thumb,index)=>thumb.classList.toggle("active", index === current));
+const SUPABASE_URL = "https://lzqpruamitoyrtkxctcd.supabase.co";
+const SUPABASE_KEY = "sb_publishable_rELycZN85GDvAtaWJZKa2g_mlON77V9";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const TRANSLATIONS = {
+  kg: {
+    backToSite:"Башкы бетке", shopTitle:"AYMI дүкөнү", shopSubtitle:"Табигый эко прокладкалар — үйгө жеткирүү менен",
+    totalLabel:"Баары болуп", checkoutBtn:"Заказ берүү", itemsWord:"товар", tabCatalog:"Дүкөн", tabCart:"Себет",
+    checkoutTitle:"Заказды тастыктоо", nameLabel:"Атыңыз", namePlaceholder:"Атыңыз", phoneLabel:"Телефон номериңиз *",
+    phonePlaceholder:"+996 ...", pickupBtn:"Өзүм алам", deliveryBtn:"Жеткирүү", addressLabel:"Дарек",
+    addressPlaceholder:"Дарегиңизди жазыңыз", commentLabel:"Комментарий (милдеттүү эмес)", submitOrderBtn:"Заказды тастыктоо",
+    successTitle:"Заказ кабыл алынды!", successHint:"Биз сиз менен байланышабыз",
+    inStock:"Бар", lowStock:"Аз калды", outOfStock:"Жок", addToCart:"Себетке кошуу", phoneRequired:"Телефон номерин жазыңыз",
+    addressRequired:"Дарегиңизди жазыңыз", emptyCart:"Себет бош", curLabel:"сом", orderCreatedToast:"Заказ кабыл алынды",
+    piecesInPack:"даана"
+  },
+  ru: {
+    backToSite:"На главную", shopTitle:"Магазин AYMI", shopSubtitle:"Натуральные эко-прокладки — с доставкой на дом",
+    totalLabel:"Итого", checkoutBtn:"Оформить заказ", itemsWord:"товар", tabCatalog:"Магазин", tabCart:"Корзина",
+    checkoutTitle:"Оформление заказа", nameLabel:"Ваше имя", namePlaceholder:"Ваше имя", phoneLabel:"Номер телефона *",
+    phonePlaceholder:"+996 ...", pickupBtn:"Заберу сам", deliveryBtn:"Доставка", addressLabel:"Адрес",
+    addressPlaceholder:"Укажите адрес доставки", commentLabel:"Комментарий (необязательно)", submitOrderBtn:"Подтвердить заказ",
+    successTitle:"Заказ принят!", successHint:"Мы свяжемся с вами",
+    inStock:"В наличии", lowStock:"Заканчивается", outOfStock:"Нет в наличии", addToCart:"В корзину", phoneRequired:"Укажите номер телефона",
+    addressRequired:"Укажите адрес доставки", emptyCart:"Корзина пуста", curLabel:"сом", orderCreatedToast:"Заказ принят",
+    piecesInPack:"штук"
+  },
+  en: {
+    backToSite:"Back to site", shopTitle:"AYMI Shop", shopSubtitle:"Natural eco pads — delivered to your door",
+    totalLabel:"Total", checkoutBtn:"Checkout", itemsWord:"items", tabCatalog:"Shop", tabCart:"Cart",
+    checkoutTitle:"Checkout", nameLabel:"Your name", namePlaceholder:"Your name", phoneLabel:"Phone number *",
+    phonePlaceholder:"+996 ...", pickupBtn:"Pickup", deliveryBtn:"Delivery", addressLabel:"Address",
+    addressPlaceholder:"Enter delivery address", commentLabel:"Comment (optional)", submitOrderBtn:"Confirm order",
+    successTitle:"Order received!", successHint:"We'll contact you shortly",
+    inStock:"In stock", lowStock:"Low stock", outOfStock:"Out of stock", addToCart:"Add to cart", phoneRequired:"Please enter your phone number",
+    addressRequired:"Please enter delivery address", emptyCart:"Cart is empty", curLabel:"som", orderCreatedToast:"Order received",
+    piecesInPack:"pcs"
+  }
+};
+
+let currentLang = (function(){ try{ return localStorage.getItem("aymi_shop_lang") || "kg"; }catch(e){ return "kg"; } })();
+function t(key){ return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || TRANSLATIONS.kg[key] || key; }
+function localizedText(base, ru, en){
+  if(currentLang === "ru") return (ru && ru.trim()) ? ru : base;
+  if(currentLang === "en") return (en && en.trim()) ? en : base;
+  return base;
 }
-function setSlide(index){ current = index; updateSlider(); }
-function nextSlide(){ current = (current + 1) % slides.length; updateSlider(); }
-function prevSlide(){ current = (current - 1 + slides.length) % slides.length; updateSlider(); }
-function toggleLangMenu(){ document.getElementById("languageMenu").classList.toggle("show"); }
-document.addEventListener("click", function(e){
-  const language = document.querySelector(".language");
-  if(language && !language.contains(e.target)){ document.getElementById("languageMenu").classList.remove("show"); }
+function escapeHtml(str){ const d=document.createElement("div"); d.textContent=String(str); return d.innerHTML; }
+
+function applyTranslations(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{ el.placeholder = t(el.dataset.i18nPlaceholder); });
+  document.querySelectorAll(".lang-switch button").forEach(b=> b.classList.toggle("active", b.dataset.lang===currentLang));
+}
+document.querySelectorAll(".lang-switch button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    currentLang = btn.dataset.lang;
+    try{ localStorage.setItem("aymi_shop_lang", currentLang); }catch(e){}
+    applyTranslations();
+    renderProducts();
+    renderCart();
+  });
 });
 
-const translations = {
-  ru:{page_title:"AYMI — Галерея прокладок",menu_home:"Главная",menu_catalog:"Каталог",menu_contact:"Контакты",order_btn:"Заказать",gallery_badge:"Галерея продукции",gallery_title:"Прокладки AYMI",gallery_text:"Фотографии продукции AYMI: упаковка, линейки и реальные изображения товара.",footer_text:"© 2026. Натуральный комфорт каждый день."},
-  en:{page_title:"AYMI — Product Gallery",menu_home:"Home",menu_catalog:"Catalog",menu_contact:"Contacts",order_btn:"Order",gallery_badge:"Product gallery",gallery_title:"AYMI sanitary pads",gallery_text:"Photos of AYMI products: packaging, product lines, and real product images.",footer_text:"© 2026. Natural comfort every day."},
-  kg:{page_title:"AYMI — продукция галереясы",menu_home:"Башкы бет",menu_catalog:"Каталог",menu_contact:"Байланыш",order_btn:"Заказ берүү",gallery_badge:"Продукция галереясы",gallery_title:"AYMI прокладкалары",gallery_text:"AYMI продукциясынын сүрөттөрү: таңгак, линейкалар жана товардын чыныгы көрүнүштөрү.",footer_text:"© 2026. Ар бир күн үчүн табигый комфорт."},
-  kz:{page_title:"AYMI — өнім галереясы",menu_home:"Басты бет",menu_catalog:"Каталог",menu_contact:"Байланыс",order_btn:"Тапсырыс беру",gallery_badge:"Өнім галереясы",gallery_title:"AYMI төсемдері",gallery_text:"AYMI өнімдерінің фотосуреттері: қаптама, өнім желілері және нақты тауар суреттері.",footer_text:"© 2026. Әр күнге табиғи жайлылық."},
-  uz:{page_title:"AYMI — mahsulotlar galereyasi",menu_home:"Bosh sahifa",menu_catalog:"Katalog",menu_contact:"Aloqa",order_btn:"Buyurtma",gallery_badge:"Mahsulotlar galereyasi",gallery_title:"AYMI prokladkalari",gallery_text:"AYMI mahsulotlari suratlari: qadoqlar, yo‘nalishlar va haqiqiy mahsulot ko‘rinishlari.",footer_text:"© 2026. Har kuni tabiiy qulaylik."},
-  tr:{page_title:"AYMI — Ürün galerisi",menu_home:"Ana sayfa",menu_catalog:"Katalog",menu_contact:"İletişim",order_btn:"Sipariş ver",gallery_badge:"Ürün galerisi",gallery_title:"AYMI hijyenik pedleri",gallery_text:"AYMI ürün fotoğrafları: ambalaj, ürün serileri ve gerçek ürün görselleri.",footer_text:"© 2026. Her gün doğal konfor."},
-  ar:{page_title:"AYMI — معرض المنتجات",menu_home:"الرئيسية",menu_catalog:"المنتجات",menu_contact:"التواصل",order_btn:"اطلب الآن",gallery_badge:"معرض المنتجات",gallery_title:"فوط AYMI الصحية",gallery_text:"صور منتجات AYMI: التغليف، خطوط المنتجات والصور الحقيقية للمنتج.",footer_text:"© 2026. راحة طبيعية كل يوم."}
-};
-function setLang(lang){
-  document.querySelectorAll("[data-key]").forEach(el=>{
-    const key = el.getAttribute("data-key");
-    if(translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
-  });
-  if(translations[lang] && translations[lang].page_title){ document.title = translations[lang].page_title; }
-  const labels = {ru:"🌐 RU", en:"🌐 EN", kg:"🌐 KG", kz:"🌐 KZ", uz:"🌐 UZ", tr:"🌐 TR", ar:"🌐 AR"};
-  document.getElementById("languageBtn").textContent = labels[lang];
-  document.getElementById("languageMenu").classList.remove("show");
-  localStorage.setItem("aymiLang", lang);
-  document.body.dir = lang === "ar" ? "rtl" : "ltr";
+let PRODUCTS = [];
+let cart = {};
+
+async function loadProducts(){
+  const { data, error } = await supabaseClient.from("products").select("*").eq("is_published", true).order("sort_order");
+  if(error || !data){ document.getElementById("productGrid").innerHTML = '<div class="empty-state">Error loading products</div>'; return; }
+  PRODUCTS = data.map(p=>({
+    id:p.id, name: localizedText(p.name, p.name_ru, null), desc: localizedText(p.description, p.description_ru, null),
+    price:Number(p.price), stock:p.stock_quantity, photo:p.photo_url
+  }));
+  renderProducts();
 }
-window.addEventListener("load",()=>setLang(localStorage.getItem("aymiLang") || "ru"));
+
+function renderProducts(){
+  PRODUCTS = PRODUCTS.map(p=>{
+    return p;
+  });
+  const el = document.getElementById("productGrid");
+  el.innerHTML = PRODUCTS.map(p=>{
+    const qty = cart[p.id] || 0;
+    const low = p.stock > 0 && p.stock <= 10;
+    const out = p.stock <= 0;
+    return `
+      <div class="product-card">
+        <div class="product-photo">
+          ${p.photo ? `<img src="${p.photo}" alt="${escapeHtml(p.name)}">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;"><i class="fa-solid fa-leaf" style="font-size:2rem;color:var(--primary);opacity:0.3;"></i></div>`}
+          <span class="stock-badge ${low||out?'low':''}">${out ? t("outOfStock") : (low ? t("lowStock") : t("inStock"))}</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">${escapeHtml(p.name)}</div>
+          <div class="product-desc">${escapeHtml(p.desc||"")}</div>
+          <div class="product-bottom">
+            <span class="product-price">${p.price} ${t("curLabel")}</span>
+          </div>
+          ${qty>0 ? `
+            <div class="qty-stepper" style="justify-content:center;margin-top:8px;">
+              <button type="button" data-minus="${p.id}">−</button>
+              <span>${qty}</span>
+              <button type="button" data-plus="${p.id}" ${qty>=p.stock?'disabled':''}>+</button>
+            </div>
+          ` : `<button type="button" class="add-btn" data-add="${p.id}" ${out?'disabled':''}><i class="fa-solid fa-plus"></i> ${t("addToCart")}</button>`}
+        </div>
+      </div>
+    `;
+  }).join("");
+  el.querySelectorAll("[data-add]").forEach(btn=> btn.addEventListener("click", ()=> changeQty(btn.dataset.add, 1)));
+  el.querySelectorAll("[data-plus]").forEach(btn=> btn.addEventListener("click", ()=> changeQty(btn.dataset.plus, 1)));
+  el.querySelectorAll("[data-minus]").forEach(btn=> btn.addEventListener("click", ()=> changeQty(btn.dataset.minus, -1)));
+}
+
+function changeQty(id, delta){
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  const current = cart[id] || 0;
+  const next = Math.max(0, Math.min(p.stock, current + delta));
+  if(next === 0) delete cart[id]; else cart[id] = next;
+  renderProducts();
+  updateCartChrome();
+}
+
+function cartEntries(){
+  return Object.entries(cart).map(([id,qty])=>({ product: PRODUCTS.find(p=>p.id===id), qty })).filter(e=>e.product);
+}
+function cartTotal(){ return cartEntries().reduce((sum,e)=> sum + e.product.price*e.qty, 0); }
+function cartCount(){ return cartEntries().reduce((sum,e)=> sum + e.qty, 0); }
+
+function updateCartChrome(){
+  const count = cartCount();
+  const total = cartTotal();
+  const bar = document.getElementById("floatingCartBar");
+  const badge = document.getElementById("cartTabBadge");
+  if(count > 0 && currentScreen !== "cart"){
+    bar.classList.add("show");
+    document.getElementById("floatingCartCount").textContent = count;
+    document.getElementById("floatingCartTotal").textContent = total + " " + t("curLabel");
+  } else { bar.classList.remove("show"); }
+  if(count > 0){ badge.style.display = "block"; badge.textContent = count; } else { badge.style.display = "none"; }
+  renderCart();
+}
+
+function renderCart(){
+  const entries = cartEntries();
+  const list = document.getElementById("cartList");
+  const summary = document.getElementById("cartSummary");
+  if(!entries.length){
+    list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-basket-shopping" style="font-size:1.8rem;display:block;margin-bottom:12px;"></i>${t("emptyCart")}</div>`;
+    summary.style.display = "none";
+    return;
+  }
+  list.innerHTML = entries.map(e=> `
+    <div class="cart-item">
+      <div class="cart-item-photo">${e.product.photo ? `<img src="${e.product.photo}" alt="">` : ""}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${escapeHtml(e.product.name)}</div>
+        <div class="cart-item-price">${e.product.price} ${t("curLabel")} × ${e.qty}</div>
+      </div>
+      <div class="qty-stepper">
+        <button type="button" data-minus="${e.product.id}">−</button>
+        <span>${e.qty}</span>
+        <button type="button" data-plus="${e.product.id}" ${e.qty>=e.product.stock?'disabled':''}>+</button>
+      </div>
+    </div>
+  `).join("");
+  list.querySelectorAll("[data-plus]").forEach(btn=> btn.addEventListener("click", ()=> changeQty(btn.dataset.plus, 1)));
+  list.querySelectorAll("[data-minus]").forEach(btn=> btn.addEventListener("click", ()=> changeQty(btn.dataset.minus, -1)));
+  summary.style.display = "block";
+  document.getElementById("cartTotal").textContent = cartTotal() + " " + t("curLabel");
+}
+
+let currentScreen = "catalog";
+function switchScreen(name){
+  currentScreen = name;
+  document.getElementById("screenCatalog").style.display = name==="catalog" ? "" : "none";
+  document.getElementById("screenCart").style.display = name==="cart" ? "" : "none";
+  document.querySelectorAll(".tab-bar-btn").forEach(b=> b.classList.toggle("active", b.dataset.screen===name));
+  updateCartChrome();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll(".tab-bar-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=> switchScreen(btn.dataset.screen));
+});
+document.getElementById("floatingCartBar").addEventListener("click", ()=> switchScreen("cart"));
+
+let deliveryMethod = "pickup";
+document.getElementById("pickupBtn").addEventListener("click", ()=>{
+  deliveryMethod = "pickup";
+  document.getElementById("pickupBtn").classList.add("active");
+  document.getElementById("deliveryBtn").classList.remove("active");
+  document.getElementById("addressField").style.display = "none";
+});
+document.getElementById("deliveryBtn").addEventListener("click", ()=>{
+  deliveryMethod = "delivery";
+  document.getElementById("deliveryBtn").classList.add("active");
+  document.getElementById("pickupBtn").classList.remove("active");
+  document.getElementById("addressField").style.display = "block";
+});
+
+document.getElementById("checkoutBtn").addEventListener("click", ()=>{
+  document.getElementById("successState").style.display = "none";
+  document.getElementById("custName").value = "";
+  document.getElementById("custPhone").value = "";
+  document.getElementById("custAddress").value = "";
+  document.getElementById("custComment").value = "";
+  document.getElementById("checkoutError").style.display = "none";
+  deliveryMethod = "pickup";
+  document.getElementById("pickupBtn").classList.add("active");
+  document.getElementById("deliveryBtn").classList.remove("active");
+  document.getElementById("addressField").style.display = "none";
+  document.getElementById("checkoutOverlay").classList.add("open");
+});
+document.getElementById("checkoutClose").addEventListener("click", ()=>{
+  document.getElementById("checkoutOverlay").classList.remove("open");
+});
+
+let toastTimer = null;
+function showToast(text){
+  const toast = document.getElementById("toast");
+  document.getElementById("toastText").textContent = text;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toast.classList.remove("show"), 2400);
+}
+
+document.getElementById("submitOrderBtn").addEventListener("click", async ()=>{
+  const errEl = document.getElementById("checkoutError");
+  errEl.style.display = "none";
+  const phone = document.getElementById("custPhone").value.trim();
+  if(!phone){ errEl.textContent = t("phoneRequired"); errEl.style.display = "block"; return; }
+  if(deliveryMethod === "delivery" && !document.getElementById("custAddress").value.trim()){
+    errEl.textContent = t("addressRequired"); errEl.style.display = "block"; return;
+  }
+  const entries = cartEntries();
+  if(!entries.length) return;
+
+  const btn = document.getElementById("submitOrderBtn");
+  btn.disabled = true;
+  const total = cartTotal();
+  const name = document.getElementById("custName").value.trim();
+  const comment = document.getElementById("custComment").value.trim();
+  const address = deliveryMethod === "delivery" ? document.getElementById("custAddress").value.trim() : null;
+
+  try{
+    let orderId, orderNumber = null;
+    try{ orderId = crypto.randomUUID(); }
+    catch(e){ orderId = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c=>{ const r=Math.random()*16|0; return (c==="x"?r:(r&0x3|0x8)).toString(16); }); }
+    for(let attempt=0; attempt<6; attempt++){
+      const candidate = Math.floor(1000 + Math.random()*9000);
+      const { error: orderErr } = await supabaseClient.from("orders").insert({
+        id: orderId, order_number: candidate, status: "new", total,
+        customer_name: name || null, customer_contact: phone, comment: comment || null,
+        delivery_type: deliveryMethod, delivery_address: address
+      });
+      if(!orderErr){ orderNumber = candidate; break; }
+      if(orderErr.code !== "23505") throw orderErr;
+    }
+    if(orderNumber === null) throw new Error("order number conflict");
+
+    const items = entries.map(e=>({ order_id: orderId, product_id: e.product.id, product_name: e.product.name, price: e.product.price, qty: e.qty }));
+    const { error: itemsErr } = await supabaseClient.from("order_items").insert(items);
+    if(itemsErr) throw itemsErr;
+
+    document.getElementById("successNumber").textContent = "№" + orderNumber;
+    document.getElementById("successState").style.display = "flex";
+    cart = {};
+    updateCartChrome();
+    renderProducts();
+    setTimeout(()=>{
+      document.getElementById("checkoutOverlay").classList.remove("open");
+      switchScreen("catalog");
+    }, 1800);
+  }catch(err){
+    errEl.textContent = err.message || "Error";
+    errEl.style.display = "block";
+  }finally{
+    btn.disabled = false;
+  }
+});
+
+applyTranslations();
+loadProducts();
 </script>
 </body>
 </html>
