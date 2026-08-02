@@ -62,7 +62,9 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:800; }
 .order-card-time{ font-size:0.76rem; color:var(--ink-soft); margin-top:2px; }
 .order-status-badge{ font-size:0.7rem; font-weight:800; padding:4px 12px; border-radius:999px; }
 .status-new{ background:#FFF4CC; color:#8A6714; }
-.status-processing{ background:var(--primary-soft); color:var(--primary-dark); }
+.status-payment_requested{ background:#FFE9CC; color:#B5610F; }
+.status-paid{ background:var(--primary-soft); color:var(--primary-dark); }
+.status-ready{ background:var(--accent-soft); color:var(--accent); }
 .status-completed{ background:var(--green-soft); color:var(--green); }
 .status-cancelled{ background:var(--red-soft); color:var(--red); }
 .order-customer{ display:flex; gap:16px; font-size:0.84rem; color:var(--ink-soft); margin-bottom:8px; flex-wrap:wrap; }
@@ -77,6 +79,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:800; }
 .order-action-primary{ background:var(--primary); color:#fff; }
 .order-action-danger{ background:var(--red-soft); color:var(--red); }
 .order-action-success{ background:var(--green-soft); color:var(--green); }
+.order-action-whatsapp{ background:#25D366; color:#fff; }
 
 /* stats */
 .stats-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; }
@@ -143,6 +146,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:800; }
     <button class="tab-btn active" data-tab="products"><i class="fa-solid fa-box"></i> Товары</button>
     <button class="tab-btn" data-tab="orders"><i class="fa-solid fa-receipt"></i> Заказы</button>
     <button class="tab-btn" data-tab="stats"><i class="fa-solid fa-chart-line"></i> Статистика</button>
+    <button class="tab-btn" data-tab="settings"><i class="fa-solid fa-building"></i> Реквизиты</button>
   </div>
 
   <div id="productsTab">
@@ -158,6 +162,18 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:800; }
       <div><h2>Заказы</h2><div class="count" id="orderCount"></div></div>
     </div>
     <div id="orderList"><div class="empty-state">Загрузка…</div></div>
+  </div>
+
+  <div id="settingsTab" style="display:none;">
+    <div class="toolbar"><h2>Реквизиты</h2></div>
+    <form id="settingsForm" style="max-width:420px;">
+      <div class="field"><label>Адрес (главный офис)</label><input type="text" id="setAddress"></div>
+      <div class="field"><label>WhatsApp для связи</label><input type="text" id="setWhatsapp" placeholder="996555662779"></div>
+      <div class="field"><label>Банк получателя</label><input type="text" id="setBank" placeholder="Мбанк"></div>
+      <div class="field"><label>Имя получателя</label><input type="text" id="setRecipient"></div>
+      <div class="field"><label>Номер для перевода</label><input type="text" id="setPaymentPhone"></div>
+      <button type="submit" class="checkout-btn" id="settingsSaveBtn" style="max-width:220px;">Сохранить</button>
+    </form>
   </div>
 
   <div id="statsTab" style="display:none;">
@@ -255,6 +271,7 @@ document.querySelectorAll(".tab-btn").forEach(btn=>{
     document.getElementById("productsTab").style.display = tab==="products" ? "" : "none";
     document.getElementById("ordersTab").style.display = tab==="orders" ? "" : "none";
     document.getElementById("statsTab").style.display = tab==="stats" ? "" : "none";
+    document.getElementById("settingsTab").style.display = tab==="settings" ? "" : "none";
     if(tab==="stats") renderStats();
   });
 });
@@ -407,6 +424,36 @@ async function deleteProduct(id){
   await loadProducts();
 }
 
+/* ---------- реквизиты ---------- */
+let BUSINESS_SETTINGS = null;
+async function loadSettings(){
+  const { data, error } = await supabaseClient.from("business_settings").select("*").eq("id", 1).maybeSingle();
+  if(error || !data) return;
+  BUSINESS_SETTINGS = data;
+  document.getElementById("setAddress").value = data.address || "";
+  document.getElementById("setWhatsapp").value = data.whatsapp || "";
+  document.getElementById("setBank").value = data.payment_bank || "";
+  document.getElementById("setRecipient").value = data.payment_recipient_name || "";
+  document.getElementById("setPaymentPhone").value = data.payment_phone || "";
+}
+document.getElementById("settingsForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const btn = document.getElementById("settingsSaveBtn");
+  btn.disabled = true; btn.textContent = "Сохраняем…";
+  const payload = {
+    address: document.getElementById("setAddress").value.trim(),
+    whatsapp: document.getElementById("setWhatsapp").value.trim(),
+    payment_bank: document.getElementById("setBank").value.trim(),
+    payment_recipient_name: document.getElementById("setRecipient").value.trim(),
+    payment_phone: document.getElementById("setPaymentPhone").value.trim()
+  };
+  const { error } = await supabaseClient.from("business_settings").update(payload).eq("id", 1);
+  btn.disabled = false; btn.textContent = "Сохранить";
+  if(error){ showToast("Ошибка: " + error.message); return; }
+  showToast("Реквизиты сохранены");
+  await loadSettings();
+});
+
 /* ---------- orders ---------- */
 let ORDERS = [];
 let ORDER_ITEMS_BY_ORDER = {};
@@ -426,12 +473,41 @@ async function loadOrders(){
   renderOrders();
 }
 function statusLabel(s){
-  return { new:"Новый", processing:"В обработке", completed:"Завершён", cancelled:"Отменён" }[s] || s;
+  return { new:"Новый", payment_requested:"Ждём оплату", paid:"Оплачен", ready:"Готов", completed:"Завершён", cancelled:"Отменён" }[s] || s;
 }
-function getOrderActions(status){
-  if(status==="new") return [{to:"processing", label:"В обработку", cls:"order-action-primary"},{to:"cancelled", label:"Отменить", cls:"order-action-danger"}];
-  if(status==="processing") return [{to:"completed", label:"Завершить", cls:"order-action-success"},{to:"cancelled", label:"Отменить", cls:"order-action-danger"}];
+function getOrderActions(status, order){
+  const readyLabel = order && order.delivery_type === "delivery" ? "Передать курьеру" : "Готов к выдаче";
+  if(status==="new") return [{action:"request_payment", label:"Запросить оплату", cls:"order-action-primary"},{to:"cancelled", label:"Отменить", cls:"order-action-danger"}];
+  if(status==="payment_requested") return [{to:"paid", label:"Оплата получена", cls:"order-action-success"},{to:"cancelled", label:"Отменить", cls:"order-action-danger"}];
+  if(status==="paid") return [{to:"ready", label:readyLabel, cls:"order-action-primary"},{to:"cancelled", label:"Отменить", cls:"order-action-danger"}];
+  if(status==="ready") return [{action:"mark_completed", label:"Завершить", cls:"order-action-success"}];
   return [];
+}
+function buildWhatsAppUrl(phone, text){
+  const digits = (phone||"").replace(/\D/g, "");
+  return "https://wa.me/" + digits + "?text=" + encodeURIComponent(text);
+}
+function contactCustomer(orderId){
+  const o = ORDERS.find(x=>String(x.id)===String(orderId));
+  if(!o || !o.customer_contact) return;
+  const items = ORDER_ITEMS_BY_ORDER[o.id] || [];
+  const itemsText = items.map(it=>"• " + it.product_name + " × " + it.qty + " — " + (Number(it.price)*it.qty) + " сом").join("\n");
+  const text = "Здравствуйте! Это AYMI.\nВаш заказ №" + (o.order_number||"") + ":\n\n" + itemsText + "\n\nИтого: " + Number(o.total) + " сом.";
+  window.open(buildWhatsAppUrl(o.customer_contact, text), "_blank");
+}
+async function requestPayment(orderId){
+  const o = ORDERS.find(x=>String(x.id)===String(orderId));
+  if(!o || !o.customer_contact) return;
+  const items = ORDER_ITEMS_BY_ORDER[o.id] || [];
+  const itemsText = items.map(it=>"• " + it.product_name + " × " + it.qty + " — " + (Number(it.price)*it.qty) + " сом").join("\n");
+  const bank = BUSINESS_SETTINGS?.payment_bank || "—";
+  const recipient = BUSINESS_SETTINGS?.payment_recipient_name || "—";
+  const payPhone = BUSINESS_SETTINGS?.payment_phone || "—";
+  const text = "Здравствуйте! Это AYMI \uD83C\uDF3F\n\nВаш заказ №" + (o.order_number||"") + " принят:\n" + itemsText +
+    "\n\n\uD83D\uDCB0 Итого к оплате: " + Number(o.total) + " сом\n\n\uD83D\uDCB3 Оплата:\nБанк: " + bank + "\nПолучатель: " + recipient + "\nНомер: " + payPhone +
+    "\n\n\uD83D\uDCF8 Пожалуйста, отправьте чек после оплаты!";
+  window.open(buildWhatsAppUrl(o.customer_contact, text), "_blank");
+  await updateOrderStatus(orderId, "payment_requested");
 }
 function renderOrders(){
   document.getElementById("orderCount").textContent = "Всего заказов: " + ORDERS.length;
@@ -440,7 +516,7 @@ function renderOrders(){
   el.innerHTML = ORDERS.map(o=>{
     const items = ORDER_ITEMS_BY_ORDER[o.id] || [];
     const time = o.created_at ? new Date(o.created_at).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}) : "";
-    const actions = getOrderActions(o.status);
+    const actions = getOrderActions(o.status, o);
     return `
       <div class="order-card">
         <div class="order-card-top">
@@ -457,7 +533,13 @@ function renderOrders(){
           ${items.map(it=>`<div><span>${escapeHtml(it.product_name)} × ${it.qty}</span><span>${Number(it.price)*it.qty} сом</span></div>`).join("") || '<div style="color:var(--ink-soft);">нет позиций</div>'}
         </div>
         <div class="order-total-row"><span>Итого</span><span>${Number(o.total)} сом</span></div>
-        ${actions.length ? `<div class="order-actions">${actions.map(a=>`<button class="order-action-btn ${a.cls}" data-order="${o.id}" data-to="${a.to}">${a.label}</button>`).join("")}</div>` : ""}
+        <div class="order-actions">
+          ${o.customer_contact ? `<button class="order-action-btn order-action-whatsapp" data-contact="${o.id}"><i class="fa-brands fa-whatsapp"></i> Написать клиенту</button>` : ""}
+          ${actions.map(a=> a.action
+            ? `<button class="order-action-btn ${a.cls}" data-order="${o.id}" data-action="${a.action}">${a.label}</button>`
+            : `<button class="order-action-btn ${a.cls}" data-order="${o.id}" data-to="${a.to}">${a.label}</button>`
+          ).join("")}
+        </div>
       </div>
     `;
   }).join("");
@@ -466,6 +548,16 @@ function renderOrders(){
       const to = btn.dataset.to;
       if(to==="cancelled" && !confirm("Точно отменить этот заказ?")) return;
       updateOrderStatus(btn.dataset.order, to);
+    });
+  });
+  el.querySelectorAll("[data-contact]").forEach(btn=>{
+    btn.addEventListener("click", ()=> contactCustomer(btn.dataset.contact));
+  });
+  el.querySelectorAll("[data-action]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const action = btn.dataset.action;
+      if(action === "request_payment") requestPayment(btn.dataset.order);
+      else if(action === "mark_completed") updateOrderStatus(btn.dataset.order, "completed");
     });
   });
 }
@@ -521,6 +613,7 @@ function renderStats(){
   const staff = await guardAuth();
   if(!staff) return;
   await loadProducts();
+  await loadSettings();
   await loadOrders();
 })();
 </script>
